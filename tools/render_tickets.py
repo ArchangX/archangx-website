@@ -53,7 +53,8 @@ def card(tk, lang, kind_label):
         price = f'<p class="price">{e(tk["price_display"])} <small>{e(t(lang, "plus_tax"))}</small></p>'
     else:
         price = f'<p class="price tba">{e(t(lang, "price_tba"))}</p>'
-    includes = "".join(f"<li>{e(line)}</li>" for line in tk.get("includes", []))
+    # A line still marked TODO in the catalogue is a note for Shahin, never shown to visitors.
+    includes = "".join(f"<li>{e(line)}</li>" for line in tk.get("includes", []) if not line.strip().upper().startswith("TODO"))
     meta = []
     if tk.get("sales_end"):
         meta.append(t(lang, "sales_end", date=nice_date(tk["sales_end"])))

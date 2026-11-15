@@ -12,7 +12,8 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 export function loadKey({ live = false } = {}) {
   const key = process.env.STRIPE_API_KEY;
   if (!key) {
-    fail("STRIPE_API_KEY is not set. In your own terminal run:  export STRIPE_API_KEY=rk_test_...  (never paste the key into a chat or a file).");
+    fail("STRIPE_API_KEY is not set. Windows: run  powershell -ExecutionPolicy Bypass -File scripts\\stripe\\set-key.ps1  and open a new terminal. "
+      + "bash/zsh: run  read -rs STRIPE_API_KEY && export STRIPE_API_KEY  and paste the key. Never paste the key into a chat, a file or a command line.");
   }
   const isLive = /^(rk|sk)_live_/.test(key);
   const isTest = /^(rk|sk)_test_/.test(key);
@@ -22,6 +23,9 @@ export function loadKey({ live = false } = {}) {
   if (key.startsWith("sk_")) console.warn("warning: this is an unrestricted secret key. Prefer a restricted key (rk_) with only the permissions in stripe/README.md.");
   return { key, livemode: isLive };
 }
+
+// Stripe error messages can quote part of the key ("The provided key 'rk_test_***abcd' ..."); never print it.
+export const redact = s => String(s).replace(/\b(rk|sk)_(test|live)_[A-Za-z0-9*]+/g, "$1_$2_[redacted]");
 
 export function fail(message, code = 2) {
   console.error("error: " + message);
@@ -60,7 +64,7 @@ export class Stripe {
       const e = json.error || {};
       const hint = e.code === "api_key_expired" || res.status === 401 ? " The key is invalid or expired."
         : res.status === 403 || /permission/i.test(e.message || "") ? " The restricted key lacks a permission; see stripe/README.md for the list." : "";
-      throw new Error(`Stripe ${method} ${pathname} -> ${res.status} ${e.type || ""} ${e.code || ""}: ${e.message || "unknown error"}.${hint}`);
+      throw new Error(redact(`Stripe ${method} ${pathname} -> ${res.status} ${e.type || ""} ${e.code || ""}: ${e.message || "unknown error"}.${hint}`));
     }
     return json;
   }

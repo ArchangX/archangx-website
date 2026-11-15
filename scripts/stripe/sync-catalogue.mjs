@@ -10,6 +10,10 @@
 // metadata.catalogue_key. Running twice changes nothing. A changed price creates a new Price, deactivates the
 // old one and, because a link's line items cannot be swapped, creates a new Payment Link and deactivates the
 // old link (so the public URL changes: re-render the site afterwards).
+//
+// Capacity is a number of completed checkouts (orders), as Stripe counts them. Stripe deactivates a link by
+// itself when its limit is reached; the sync then reports the type as sold out and never opens a replacement.
+// Orders on earlier links of the same type (before a price change) count towards the capacity.
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
@@ -31,12 +35,16 @@ if (autoTax === null) blockers.push(`automatic_tax is "${cat.automatic_tax}" (mu
 const taxCode = isTodo(cat.tax_code) ? null : cat.tax_code || null;
 if (isTodo(cat.tax_code)) blockers.push("tax_code is TODO (allowed: the Dashboard default applies until it is set)");
 if (!/^https:\/\/www\.archangx\.com\//.test(cat.redirect_url)) blockers.push("redirect_url must be on https://www.archangx.com/");
+if ((cat.inactive_message || "").length > 500) blockers.push("inactive_message is longer than Stripe's 500 characters");
 const keys = new Set();
 for (const p of cat.products) {
   if (keys.has(p.key)) blockers.push(`duplicate key ${p.key}`); keys.add(p.key);
   if (isTodo(p.price)) blockers.push(`${p.key}: price is TODO`);
+  else if (!/^\d+(\.\d{1,2})?$/.test(String(p.price))) blockers.push(`${p.key}: price must look like "450.00" (CAD dollars), not ${JSON.stringify(p.price)}`);
   if (isTodo(p.capacity)) blockers.push(`${p.key}: capacity is TODO (use null for unlimited)`);
+  else if (p.capacity !== null && p.capacity !== undefined && !(Number.isInteger(Number(p.capacity)) && Number(p.capacity) > 0)) blockers.push(`${p.key}: capacity must be a whole number above 0, or null`);
   if (isTodo(p.sales_end)) blockers.push(`${p.key}: sales_end is TODO (remove the field if sales simply close at the event)`);
+  else if (p.sales_end && !/^\d{4}-\d{2}-\d{2}$/.test(p.sales_end)) blockers.push(`${p.key}: sales_end must be a date like 2027-03-31`);
   if (!["on_sale", "closed", "coming_soon"].includes(p.status || "on_sale")) blockers.push(`${p.key}: status must be on_sale, closed or coming_soon`);
   for (const line of p.includes || []) if (isTodo(line)) blockers.push(`${p.key}: an "includes" line is TODO`);
 }
@@ -61,7 +69,7 @@ function desiredFor(p) {
   const isBooth = p.kind === "booth";
   const todo = isTodo(p.price) || isTodo(p.capacity);
   const unitAmount = todo ? null : toCents(p.price);
-  const capacity = p.capacity === null || p.capacity === undefined ? null : Number(p.capacity);
+  const capacity = p.capacity === null || p.capacity === undefined || isTodo(p.capacity) ? null : Number(p.capacity);
   const salesEnded = p.sales_end && !isTodo(p.sales_end) && p.sales_end < today;
   const active = (p.status || "on_sale") === "on_sale" && !salesEnded;
   const customFields = [editionField,
@@ -75,6 +83,7 @@ function desiredFor(p) {
     capacity,
     active,
     salesEnded,
+    // Settings compared field by field with the existing link; restrictions and active are worked out below.
     link: {
       allow_promotion_codes: true,
       billing_address_collection: "required",
@@ -85,13 +94,13 @@ function desiredFor(p) {
         ? { business: { enabled: true, optional: false }, individual: { enabled: true, optional: false } }
         : { individual: { enabled: true, optional: false }, business: { enabled: true, optional: true } },
       custom_fields: customFields,
-      restrictions: capacity ? { completed_sessions: { limit: capacity } } : undefined,
       inactive_message: cat.inactive_message,
       submit_type: "pay",
       metadata: { catalogue_key: p.key, event: cat.event },
       payment_intent_data: { metadata: { catalogue_key: p.key, event: cat.event } },
     },
-    adjustable: { enabled: !isBooth, minimum: 1, maximum: isBooth ? 1 : 10 },
+    // Booths are one per order: no quantity selector at all.
+    adjustable: isBooth ? undefined : { enabled: true, minimum: 1, maximum: 10 },
   };
 }
 
@@ -103,10 +112,21 @@ console.log(dryRun ? "\nDRY RUN: nothing will be written.\n" : `\nApplying to ${
 
 const existing = { products: new Map(), prices: new Map(), links: new Map() };
 if (stripe) {
-  for (const active of [true, false]) for await (const pr of stripe.list("/products", { active })) if (pr.metadata?.catalogue_key && pr.metadata?.event === cat.event) existing.products.set(pr.metadata.catalogue_key, pr);
+  for (const active of [true, false]) for await (const pr of stripe.list("/products", { active })) {
+    const k = pr.metadata?.catalogue_key;
+    if (k && pr.metadata?.event === cat.event && !existing.products.has(k)) existing.products.set(k, pr); // an active product wins over an archived copy
+  }
   const lookupKeys = cat.products.map(p => `${slug}-${p.key}`);
-  for await (const price of stripe.list("/prices", { lookup_keys: lookupKeys, active: true })) existing.prices.set(price.lookup_key, price);
-  for await (const l of stripe.list("/payment_links", { expand: ["data.line_items"] })) if (l.metadata?.catalogue_key && l.metadata?.event === cat.event && l.active) existing.links.set(l.metadata.catalogue_key, l);
+  for (let i = 0; i < lookupKeys.length; i += 10) // Stripe takes at most 10 lookup keys per request
+    for await (const price of stripe.list("/prices", { lookup_keys: lookupKeys.slice(i, i + 10), active: true })) existing.prices.set(price.lookup_key, price);
+  // Every link made for this event, active or not: a sold-out link was deactivated by Stripe, and its orders
+  // still count towards the capacity.
+  for await (const l of stripe.list("/payment_links", { expand: ["data.line_items"] })) {
+    const k = l.metadata?.catalogue_key;
+    if (!k || l.metadata?.event !== cat.event) continue;
+    if (!existing.links.has(k)) existing.links.set(k, []);
+    existing.links.get(k).push(l);
+  }
 }
 
 const same = (a, b) => JSON.stringify(norm(a)) === JSON.stringify(norm(b));
@@ -115,6 +135,8 @@ function norm(v) { // drop undefined/null-ish and sort keys so Stripe's response
   if (v && typeof v === "object") return Object.fromEntries(Object.keys(v).filter(k => v[k] !== undefined && v[k] !== null).sort().map(k => [k, norm(v[k])]));
   return v;
 }
+const ordersOn = l => l?.restrictions?.completed_sessions?.count || 0;
+const priceOn = l => l?.line_items?.data?.[0]?.price?.id;
 
 const summary = [], output = [];
 let changes = 0;
@@ -126,7 +148,7 @@ for (const p of cat.products) {
     capacity: d.capacity, price_cents: d.unitAmount, price_display: d.unitAmount === null ? null : money(d.unitAmount, cat.currency), url: null, status: "coming_soon", sold: 0 };
 
   if (d.unitAmount === null || isTodo(p.capacity)) { log("skipped: price or capacity is TODO"); summary.push([p.key, "blocked"]); output.push(row); continue; }
-  if (!stripe) { log(`would create product, price ${row.price_display}, payment link (${d.active ? "active" : "inactive"})`); changes++; summary.push([p.key, "create"]); output.push(row); continue; }
+  if (!stripe) { log(`would create product, price ${row.price_display}, payment link (${d.active ? "active" : "none: sales closed"}${d.capacity ? `, limit ${d.capacity} orders` : ""})`); changes++; summary.push([p.key, "create"]); output.push(row); continue; }
 
   // Product
   let product = existing.products.get(p.key);
@@ -142,7 +164,6 @@ for (const p of cat.products) {
 
   // Price (immutable: a changed amount creates a new one and moves the lookup key)
   let price = existing.prices.get(d.lookupKey);
-  let priceChanged = false;
   if (price && price.product !== product.id && !product.dry_run) { log("warning: lookup key belongs to another product; creating a fresh price"); price = null; }
   if (!price || price.unit_amount !== d.unitAmount || price.currency !== cat.currency) {
     const old = price;
@@ -150,23 +171,33 @@ for (const p of cat.products) {
       tax_behavior: autoTax ? "exclusive" : undefined, metadata: { catalogue_key: p.key } }, `create price ${row.price_display}`);
     if (old) { await stripe.post(`/prices/${old.id}`, { active: false }, "deactivate old price"); log(`price: ${money(old.unit_amount, old.currency)} -> ${row.price_display} (new price, old one deactivated)`); }
     else log(`price: create ${row.price_display}`);
-    priceChanged = true; changes++;
+    changes++;
   } else log(`price: unchanged (${row.price_display})`);
 
   // Payment Link
-  let link = existing.links.get(p.key);
-  const linkPrice = link?.line_items?.data?.[0]?.price?.id;
-  if (link && (priceChanged || (linkPrice && linkPrice !== price.id))) {
-    await stripe.post(`/payment_links/${link.id}`, { active: false }, "deactivate old payment link");
-    log("payment link: price changed, old link deactivated (URL will change)"); link = null; changes++;
+  const links = existing.links.get(p.key) || [];
+  if (links.filter(l => l.active).length > 1) log("warning: more than one active payment link for this type; using the first, deactivate the others in the Dashboard");
+  const ordersAll = links.reduce((n, l) => n + ordersOn(l), 0);
+  let link = links.find(l => l.active) || links.find(l => priceOn(l) === price.id) || null;
+  if (link && priceOn(link) !== price.id) { // the price changed: retire the link, a new one (new URL) follows
+    if (link.active) { await stripe.post(`/payment_links/${link.id}`, { active: false }, "deactivate old payment link"); changes++; }
+    log(`payment link: old link is on the previous price, ${link.active ? "deactivated" : "already inactive"}`);
+    link = null;
   }
+  const remaining = d.capacity === null ? null : d.capacity - ordersAll;
+  const soldOut = remaining !== null && remaining <= 0;
+  const wantActive = d.active && !soldOut;
+  // A link may take the capacity minus the orders already taken on the other links of this type.
+  const limitFor = l => d.capacity === null ? undefined : Math.max(d.capacity - (ordersAll - ordersOn(l)), ordersOn(l), 1);
+  const restrictionsFor = l => d.capacity === null ? undefined : { completed_sessions: { limit: limitFor(l) } };
+
   if (!link) {
-    if (d.active) {
-      link = await stripe.post("/payment_links", { line_items: [{ price: price.id, quantity: 1, adjustable_quantity: d.adjustable }], ...d.link, active: d.active }, "create payment link");
-      log(`payment link: create (${d.active ? "active" : "inactive"})`); changes++;
-    } else { log("payment link: none, and the type is closed; nothing to create"); }
+    if (wantActive) {
+      link = await stripe.post("/payment_links", { line_items: [{ price: price.id, quantity: 1, adjustable_quantity: d.adjustable }], ...d.link, restrictions: restrictionsFor(null) }, "create payment link");
+      log(`payment link: create${d.capacity === null ? "" : ` (limit ${limitFor(null)} orders)`}`); changes++;
+    } else log(`payment link: none created (${soldOut ? "sold out" : "sales closed"})`);
   } else {
-    const want = { ...d.link, active: d.active };
+    const want = { ...d.link, restrictions: restrictionsFor(link), active: wantActive };
     const have = { allow_promotion_codes: link.allow_promotion_codes, billing_address_collection: link.billing_address_collection, automatic_tax: { enabled: link.automatic_tax?.enabled },
       after_completion: { type: link.after_completion?.type, redirect: { url: link.after_completion?.redirect?.url } }, phone_number_collection: { enabled: link.phone_number_collection?.enabled },
       name_collection: link.name_collection ? { individual: pick(link.name_collection.individual), business: pick(link.name_collection.business) } : undefined,
@@ -175,20 +206,22 @@ for (const p of cat.products) {
       inactive_message: link.inactive_message, submit_type: link.submit_type, metadata: pickKeys(link.metadata, ["catalogue_key", "event"]),
       payment_intent_data: { metadata: pickKeys(link.payment_intent_data?.metadata, ["catalogue_key", "event"]) }, active: link.active };
     const patch = {};
-    for (const k of Object.keys(want)) if (!same(want[k], have[k])) patch[k] = want[k] === undefined ? (k === "restrictions" ? { completed_sessions: { limit: "" } } : want[k]) : want[k];
+    for (const k of Object.keys(want)) if (!same(want[k], have[k])) patch[k] = want[k] === undefined ? null : want[k]; // null is sent as "" and clears the field
     const li = link.line_items?.data?.[0];
-    if (li && li.adjustable_quantity && !same(li.adjustable_quantity, d.adjustable)) patch.line_items = [{ id: li.id, adjustable_quantity: d.adjustable }];
-    if (Object.keys(patch).length) { await stripe.post(`/payment_links/${link.id}`, patch, `update payment link ${Object.keys(patch).join(",")}`); log(`payment link: update ${Object.keys(patch).join(", ")}`); changes++; }
-    else log("payment link: unchanged");
-    link = { ...link, ...patch, active: d.active };
+    if (li && d.adjustable && !same(li.adjustable_quantity, d.adjustable)) patch.line_items = [{ id: li.id, adjustable_quantity: d.adjustable }];
+    if (Object.keys(patch).length) {
+      await stripe.post(`/payment_links/${link.id}`, patch, `update payment link ${Object.keys(patch).join(",")}`);
+      const what = Object.keys(patch).map(k => k === "active" ? (wantActive ? "reactivated" : `deactivated (${soldOut ? "sold out" : "sales closed"})`) : k);
+      log(`payment link: ${what.join(", ")}`); changes++;
+    } else log(`payment link: unchanged${link.active ? "" : ` (inactive: ${soldOut ? "sold out" : "sales closed"})`}`);
+    link = { ...link, active: wantActive };
   }
 
   // Public state for the website
-  const sold = link?.restrictions?.completed_sessions?.count || 0;
-  row.sold = sold;
+  row.sold = ordersAll;
   row.url = link?.url && !link.dry_run ? link.url : null;
-  row.status = !d.active ? "closed" : d.capacity && sold >= d.capacity ? "sold_out" : row.url ? "on_sale" : "coming_soon";
-  summary.push([p.key, row.status]);
+  row.status = !d.active ? "closed" : soldOut ? "sold_out" : row.url ? "on_sale" : "coming_soon";
+  summary.push([p.key, row.status + (d.capacity ? ` (${ordersAll}/${d.capacity} orders)` : ""), row.url]);
   output.push(row);
 }
 
@@ -197,7 +230,7 @@ const publicFile = { generated_at: new Date().toISOString(), livemode, event: ca
   editions: cat.editions || [], tickets: output };
 if (!dryRun) { mkdirSync(path.dirname(OUT), { recursive: true }); writeFileSync(OUT, JSON.stringify(publicFile, null, 2) + "\n"); }
 console.log(`\n${changes} change(s) ${dryRun ? "planned" : "applied"}; ${stripe?.writes || 0} write call(s)${dryRun ? " skipped" : ""}.`);
-for (const [k, s] of summary) console.log(`  ${k.padEnd(22)} ${s}`);
+for (const [k, s, url] of summary) console.log(`  ${k.padEnd(22)} ${s}${url ? "  " + url : ""}`);
 if (!dryRun) console.log(`\nWrote ${path.relative(ROOT, OUT)}. Now run:  python tools/render_tickets.py   and commit both.`);
 if (dryRun && hardBlockers.length) console.log("\nA real run is blocked until the TODO values above are filled in.");
 

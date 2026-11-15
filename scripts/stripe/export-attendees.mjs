@@ -20,6 +20,7 @@ for (const a of argv) if (a.startsWith("--") && !["--live", "--since", "--editio
 const cat = readCatalogue();
 const { key, livemode } = loadKey({ live: flag("--live") });
 const stripe = new Stripe(key);
+if (opt("--since") && !/^\d{4}-\d{2}-\d{2}$/.test(opt("--since"))) fail("--since takes a date like 2027-01-01");
 const since = opt("--since") ? Math.floor(new Date(opt("--since")).getTime() / 1000) : undefined;
 const edition = opt("--edition");
 const includeRefunded = flag("--include-refunded");
