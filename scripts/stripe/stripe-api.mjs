@@ -27,6 +27,15 @@ export function loadKey({ live = false } = {}) {
 // Stripe error messages can quote part of the key ("The provided key 'rk_test_***abcd' ..."); never print it.
 export const redact = s => String(s).replace(/\b(rk|sk)_(test|live)_[A-Za-z0-9*]+/g, "$1_$2_[redacted]");
 
+// A Stripe error mid-run: print it plainly (no stack trace). Whatever was already created stays, and the
+// scripts are idempotent, so running the same command again continues where it stopped.
+process.on("uncaughtException", e => {
+  console.error("\nerror: " + redact(e?.message || e));
+  if (/head office address|automatic tax/i.test(e?.message || "")) console.error("Stripe Tax is not set up in this account yet: Dashboard > Settings > Tax (see stripe/README.md).");
+  console.error("Nothing after this step was sent. Fix the cause and run the same command again: it continues where it stopped.");
+  process.exit(1);
+});
+
 export function fail(message, code = 2) {
   console.error("error: " + message);
   process.exit(code);

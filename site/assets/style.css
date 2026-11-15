@@ -533,14 +533,17 @@ ol.steps .refs a { padding: 3px 8px; border-radius: 6px; font: 700 11.5px/1.2 va
 
 /* Tickets (summit-tickets.html, exhibitions.html#exhibit): cards rendered by tools/render_tickets.py. Status colours all pass AA with white text. */
 .cards.tickets { align-items: stretch; }
-.card.ticket { display: grid; grid-template-rows: auto auto auto 1fr auto auto; gap: 10px; align-content: start; }
+.card.ticket { display: flex; flex-direction: column; gap: 10px; }
+.ticket-edition { margin: 34px 0 16px; font: 700 clamp(20px, 2.2vw, 24px)/1.25 var(--display); letter-spacing: -.01em; color: var(--ink); }
+.notice + .ticket-edition, .ticket-edition:first-child { margin-top: 18px; }
+.ticket .note { margin: 0; font-size: 14px; }
 .ticket .price { margin: 0; font: 700 clamp(26px, 3vw, 32px)/1.1 var(--display); letter-spacing: -.02em; color: var(--ink); }
 .ticket .price small { display: block; margin-top: 4px; font: 500 13px/1.4 var(--sans); letter-spacing: 0; color: var(--muted); }
 .ticket .price.tba { font-size: 20px; color: var(--muted); }
-.ticket .ticks { margin: 0; }
+.ticket .ticks { margin: 0; flex: 1 0 auto; align-content: start; }
 .ticket .ticks li { font-size: 15px; }
 .ticket .meta { margin: 0; font-size: 14px; color: var(--muted); }
-.ticket .btn { justify-self: start; align-self: end; }
+.ticket .btn { align-self: flex-start; }
 .tag.onsale { background: #0f5a32; color: var(--on-dark); border-color: transparent; }
 .tag.comingsoon { background: #1a5f8a; color: var(--on-dark); border-color: transparent; }
 .tag.soldout { background: #7a1f1f; color: var(--on-dark); border-color: transparent; }

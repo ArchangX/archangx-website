@@ -50,6 +50,10 @@ python tools/check_site.py                         # 0 problems
 git add stripe site/data site/*.html && git commit -m "SCRUM-1377: sync ticket catalogue"
 ```
 
+Every ticket type is sold **per city**: the sync makes one Stripe product, price and Payment Link for Toronto and
+one for Montreal (`hackathon` becomes `hackathon-toronto` and `hackathon-montreal`), with the same price and the
+capacity applying to each city. The product name on the checkout page and receipt carries the city and dates.
+
 A second real run must print `0 change(s) applied`. The dry run also works without a key (offline plan) and
 lists every `TODO` still in the catalogue; a real run stops on any `TODO`. The sync prints each Payment Link URL.
 
@@ -61,11 +65,12 @@ with the test card `4242 4242 4242 4242`. Tick each line:
 | Check | How | Expected |
 |---|---|---|
 | Every type can be bought | one purchase per link; passes with quantity 2 | payment succeeds; Dashboard → Payments lists it |
-| Fields are captured | fill in edition, other attendees, needs; booths: company name and phone | shown on the payment, and in the export CSV |
+| Fields are captured | fill in other attendees and needs; student pass: school or institution; booths: company name and phone | shown on the payment, and in the export CSV with the city |
+| Checkout notes | open the student and booth links | the student link says ID is required at check-in; the booth link lists what the price does not include |
 | Redirect | after paying | lands on `summit-thanks.html` (a 404 until the pages are merged and published; the URL bar shows the right address) |
 | Receipt | Dashboard → the payment → Receipt history → ⋯ → Send receipt | sandbox payments never email receipts by themselves; check the branding and wording of the one you send |
 | Promotion code | Product catalog → Coupons → create a 100 % coupon with code `TEST100`, use it at checkout | total drops to 0; delete the coupon afterwards |
-| Tax | look at the checkout total | matches `automatic_tax` in the catalogue (no tax line while it is `false`) |
+| Tax | buy a Toronto and a Montreal ticket, with billing addresses in different provinces | tax is added on top of the price (prices are exclusive); the accountant confirms the amounts are right for each city. Stripe can also tax event tickets by venue location ("Tax for tickets", a performance location per product), which the per-city products allow once the venues are known |
 | Capacity closes the link | in `catalogue.json` set one type's `capacity` to the orders it already has plus 1, sync, buy once, sync again | the link shows the inactive message; the card says "Sold out"; restore the real capacity and sync |
 | Refund | Dashboard → the payment → Refund | refunded; the next export leaves the order out |
 | Export | `node scripts/stripe/export-attendees.mjs` | `exports/attendees-test-<date>.csv` opens in Excel with accents intact |
@@ -87,7 +92,12 @@ published by mistake, the cards carry a "Test mode" notice and no real money can
 | Create a discount code | Dashboard → Product catalog → Coupons → Create coupon, then "Add promotion code" (for example `SPEAKER100`). Promotion codes are already enabled on every link. Customers type the code at checkout, or use `?prefilled_promo_code=CODE` on the link. |
 | Refund an order | Dashboard → Payments → open the payment → Refund. The next attendee export leaves refunded orders out. |
 | See how many sold | Dashboard → Payment links → the link → Payments and analytics, or run the export. |
-| Turn tax on | Dashboard → Settings → Tax → activate, add registrations (GST/HST, QST), set the default product tax code; then set `"automatic_tax": true` in `catalogue.json` and run the sync. |
+| Turn tax on | Dashboard → Settings → Tax (the sandbox has its own: https://dashboard.stripe.com/test/settings/tax): enter the head office address, the default product tax code and "exclusive" as the default tax behaviour, then add the registrations (Canada GST/HST, Québec QST). Then `"automatic_tax": true` in `catalogue.json` and run the sync. Without a head office address Stripe refuses to create a link with automatic tax. |
+| Sell one link for both cities | Set `"per_edition": false` on the product. Checkout then asks for the city in a dropdown. The sync switches off the per-city links and creates the single one. |
+| Use a different value per city | Write it as `{"toronto": ..., "montreal": ...}`: works for `price`, `capacity`, `sales_end` and `status` (for example the early-bird end dates). `name_by_edition` does the same for the card title. |
+| Hide a price on the website | `"show_price": false` (booths). The card shows no price; Stripe checkout still shows it. |
+| Show a notice at checkout | `"checkout_note"`: up to 1,200 characters, shown next to the pay button. `"note"` is the same kind of line on the website card. |
+| Ask for one more thing at checkout | `"fields": [{"key": "institution", "label": "School or institution", "optional": false}]`. Stripe allows 3 fields per link; passes already use 2 (other attendees, needs). |
 
 **Capacity counts orders, not seats.** Stripe limits the number of completed checkouts on a link, and a pass order
 can hold up to 10 people, so `capacity: 100` allows up to 100 orders (between 100 and 1,000 seats). Booths are one
@@ -96,7 +106,10 @@ price change) count towards the capacity. A refund does not lower Stripe's count
 the seat.
 
 What the sync never does: delete anything, touch objects it did not create (it only looks at objects whose
-`metadata.event` matches the catalogue), or run in live mode without `--live`.
+`metadata.event` matches the catalogue), or run in live mode without `--live`. A link whose ticket type is no
+longer in the catalogue is switched off, so a removed or renamed type cannot keep selling.
+
+If a run stops on a Stripe error, whatever it already created stays; fix the cause and run the same command again.
 
 ## Attendee list
 
@@ -106,8 +119,8 @@ node scripts/stripe/export-attendees.mjs --live          # real orders
 node scripts/stripe/export-attendees.mjs --live --edition toronto --since 2027-01-01
 ```
 
-One row per order with ticket type, quantity, buyer and organisation name, email, phone (booths), edition, names
-of other attendees, dietary or accessibility needs, amounts, tax and discount. Refunded and unpaid orders are
+One row per order with city, ticket type, quantity, buyer and organisation name, email, phone (booths), names of
+other attendees, dietary or accessibility needs, school or institution (student pass), amounts, tax and discount. Refunded and unpaid orders are
 left out (`--include-refunded` to keep them). `exports/` is git-ignored because the file contains personal data.
 
 ## Test cards (sandbox only)

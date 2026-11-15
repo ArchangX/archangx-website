@@ -1,26 +1,27 @@
 {
-  "$comment": "Source of truth for everything sold through Stripe. Money values are CAD dollars as strings ('450.00'). Every 'TODO' blocks a real sync until Shahin fills it in (SCRUM-1374). Public Payment Link URLs are written to site/data/summit-tickets.json by scripts/stripe/sync-catalogue.mjs; nothing secret lives in either file.",
+  "$comment": "Source of truth for everything sold through Stripe. Prices and capacities are Shahin's approved provisional launch-year values for the Stripe sandbox (2026-11-14); confirm them before the live run. Money values are CAD dollars as strings ('450.00'), before tax. Every product is sold separately per edition: one Stripe product, price and payment link per city, with the capacity per city. A value that differs by city is written as {\"toronto\": ..., \"montreal\": ...}. Set \"per_edition\": false on a product to sell one link for both cities. Capacity counts completed checkouts (orders), not people. \"show_price\": false hides the price on the website (Stripe checkout still shows it). \"checkout_note\" is shown on the Stripe checkout page next to the pay button. Every 'TODO' blocks a real sync, except tax_code. Public Payment Link URLs are written to site/data/summit-tickets.json by scripts/stripe/sync-catalogue.mjs; nothing secret lives in either file.",
   "event": "ArchangX Summit and Exhibition 2027",
   "event_slug": "summit2027",
   "currency": "cad",
-  "automatic_tax": "TODO(Shahin): true once Stripe Tax is set up",
-  "tax_code": "TODO(Shahin): Stripe product tax code once the accountant confirms, e.g. txcd_20030000 (General - Services); leave null to use the Dashboard default",
+  "automatic_tax": true,
+  "tax_behavior": "exclusive",
+  "tax_code": "TODO(Shahin): Stripe product tax code once the accountant confirms; until then the default product tax code in the Stripe Tax settings applies",
   "tax_note": "Prices in Canadian dollars. GST/HST and QST are added at checkout where they apply.",
   "redirect_url": "https://www.archangx.com/summit-thanks.html",
   "support_email": "shahin.vakilinia@archangx.com",
   "inactive_message": "This ticket type is no longer available. See www.archangx.com/summit-tickets.html for what is still on sale, or email shahin.vakilinia@archangx.com.",
   "editions": [
-    { "value": "toronto", "label": "Toronto, 21-22 June 2027" },
-    { "value": "montreal", "label": "Montreal, 14-15 July 2027" }
+    { "value": "toronto", "label": "Toronto, 21–22 June 2027" },
+    { "value": "montreal", "label": "Montreal, 14–15 July 2027" }
   ],
   "products": [
     {
       "key": "summit-early-bird",
       "name": "Summit pass (early bird)",
       "kind": "pass",
-      "price": "TODO",
-      "capacity": "TODO",
-      "sales_end": "TODO",
+      "price": "695.00",
+      "capacity": 100,
+      "sales_end": { "toronto": "2027-03-31", "montreal": "2027-04-30" },
       "status": "on_sale",
       "includes": ["Day 1 conference and exhibition hall", "Opening keynote and eight panels", "Lunch, breaks and the evening celebration", "Day 2 hackathon as a spectator"]
     },
@@ -28,8 +29,8 @@
       "key": "summit-standard",
       "name": "Summit pass (standard)",
       "kind": "pass",
-      "price": "TODO",
-      "capacity": "TODO",
+      "price": "895.00",
+      "capacity": 150,
       "status": "on_sale",
       "includes": ["Day 1 conference and exhibition hall", "Opening keynote and eight panels", "Lunch, breaks and the evening celebration", "Day 2 hackathon as a spectator"]
     },
@@ -37,26 +38,29 @@
       "key": "summit-student",
       "name": "Summit pass (student / academic)",
       "kind": "pass",
-      "price": "TODO",
-      "capacity": "TODO",
+      "price": "195.00",
+      "capacity": 50,
       "status": "on_sale",
-      "includes": ["Everything in the Summit pass", "Poster session slot for research or student work", "Valid student or academic ID checked at the door"]
+      "includes": ["Everything in the Summit pass", "Poster session slot for research or student work", "Valid student or academic ID required at check-in"],
+      "fields": [{ "key": "institution", "label": "School or institution", "optional": false }],
+      "checkout_note": "Student and academic pass: a valid student or academic ID is required at check-in, for every person on this order."
     },
     {
       "key": "summit-virtual",
       "name": "Livestream pass",
       "kind": "pass",
-      "price": "TODO",
+      "price": "149.00",
       "capacity": null,
       "status": "on_sale",
       "includes": ["Live stream of the keynote and all eight panels", "Recordings for 30 days after the event", "Online access to the hackathon demos and prizes"]
     },
     {
       "key": "hackathon",
-      "name": "Hackathon entry (22 June 2027)",
+      "name": "Hackathon entry",
+      "name_by_edition": { "toronto": "Hackathon entry (Tue 22 June)", "montreal": "Hackathon entry (Thu 15 July)" },
       "kind": "pass",
-      "price": "TODO",
-      "capacity": "TODO",
+      "price": "99.00",
+      "capacity": 80,
       "status": "on_sale",
       "includes": ["Day 2 hackathon on the Seraphim digital twin, on site or online", "Track briefings, mentor office hours and judging", "Lunch on site"]
     },
@@ -64,19 +68,35 @@
       "key": "exhibitor-booth",
       "name": "Exhibition booth",
       "kind": "booth",
-      "price": "TODO",
-      "capacity": "TODO",
+      "price": "1000.00",
+      "capacity": 20,
       "status": "on_sale",
-      "includes": ["Booth in the exhibition hall for Day 1", "TODO(Shahin): booth size, table, power, number of included staff passes", "Listing on the Summit page and in the programme"]
+      "show_price": false,
+      "includes": [
+        "One standard 10 ft × 10 ft exhibition space",
+        "One 6 ft table",
+        "Two chairs",
+        "Standard electrical connection",
+        "Venue Wi-Fi",
+        "Two full two-day exhibitor passes",
+        "Coffee breaks and lunches for two booth representatives",
+        "Access to summit sessions and networking reception",
+        "Company logo and profile on the summit website",
+        "Company listing in the digital event programme",
+        "Access to B2B and investor networking",
+        "Basic booth identification sign"
+      ],
+      "note": "Not included: custom printing, monitors, special furniture, freight, storage, installation labour or additional electrical requirements.",
+      "checkout_note": "The booth price does not include custom printing, monitors, special furniture, freight, storage, installation labour or additional electrical requirements."
     },
     {
       "key": "exhibitor-extra-pass",
       "name": "Additional exhibitor staff pass",
       "kind": "booth-addon",
-      "price": "TODO",
-      "capacity": "TODO",
+      "price": "500.00",
+      "capacity": 40,
       "status": "on_sale",
-      "includes": ["One extra staff pass for an exhibiting organisation", "Day 1 access, lunch and breaks", "Requires a booth reservation"]
+      "includes": ["One additional staff pass for an exhibiting organisation", "Full two-day exhibitor access", "Summit sessions and the networking reception", "Coffee breaks and lunches", "Requires a booth reservation in the same city"]
     }
   ]
 }

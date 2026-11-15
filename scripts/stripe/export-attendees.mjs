@@ -37,20 +37,21 @@ for await (const s of stripe.list("/checkout/sessions", { status: "complete", cr
   const refunded = !!(charge && (charge.refunded || charge.amount_refunded > 0));
   if (refunded && !includeRefunded) { skipped.refunded++; continue; }
   const cf = Object.fromEntries((s.custom_fields || []).map(f => [f.key, f.dropdown?.value ?? f.text?.value ?? f.numeric?.value ?? ""]));
-  if (edition && cf.edition !== edition) continue;
+  if (edition && (s.metadata?.edition || cf.edition) !== edition) continue;
   const li = s.line_items?.data?.[0];
   rows.push({
-    order: s.id, paid_at: new Date(s.created * 1000).toISOString(), edition: cf.edition || "", ticket_key: k, ticket: li?.description || k, quantity: li?.quantity ?? 1,
+    order: s.id, paid_at: new Date(s.created * 1000).toISOString(), edition: s.metadata?.edition || cf.edition || "", ticket_type: s.metadata?.ticket_type || k, ticket_key: k,
+    ticket: li?.description || k, quantity: li?.quantity ?? 1,
     buyer_name: s.collected_information?.individual_name || s.customer_details?.name || "", organisation: s.collected_information?.business_name || "",
-    email: s.customer_details?.email || "", phone: s.customer_details?.phone || "", other_attendees: cf.attendees || "", needs: cf.needs || "",
+    email: s.customer_details?.email || "", phone: s.customer_details?.phone || "", other_attendees: cf.attendees || "", needs: cf.needs || "", institution: cf.institution || "",
     amount_total: (s.amount_total / 100).toFixed(2), currency: (s.currency || "").toUpperCase(), tax: ((s.total_details?.amount_tax || 0) / 100).toFixed(2),
     discount: ((s.total_details?.amount_discount || 0) / 100).toFixed(2), refunded: refunded ? "yes" : "no", payment_intent: typeof s.payment_intent === "object" ? s.payment_intent?.id : s.payment_intent || "",
     livemode: s.livemode ? "live" : "test",
   });
 }
-rows.sort((a, b) => a.edition.localeCompare(b.edition) || a.ticket_key.localeCompare(b.ticket_key) || a.buyer_name.localeCompare(b.buyer_name));
+rows.sort((a, b) => a.edition.localeCompare(b.edition) || a.ticket_type.localeCompare(b.ticket_type) || a.buyer_name.localeCompare(b.buyer_name));
 
-const cols = Object.keys(rows[0] || { order: 1, paid_at: 1, edition: 1, ticket_key: 1, ticket: 1, quantity: 1, buyer_name: 1, organisation: 1, email: 1, phone: 1, other_attendees: 1, needs: 1, amount_total: 1, currency: 1, tax: 1, discount: 1, refunded: 1, payment_intent: 1, livemode: 1 });
+const cols = Object.keys(rows[0] || { order: 1, paid_at: 1, edition: 1, ticket_type: 1, ticket_key: 1, ticket: 1, quantity: 1, buyer_name: 1, organisation: 1, email: 1, phone: 1, other_attendees: 1, needs: 1, institution: 1, amount_total: 1, currency: 1, tax: 1, discount: 1, refunded: 1, payment_intent: 1, livemode: 1 });
 const q = v => { const s = String(v ?? ""); return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
 const csv = [cols.join(","), ...rows.map(r => cols.map(c => q(r[c])).join(","))].join("\r\n") + "\r\n";
 mkdirSync(path.dirname(out), { recursive: true });
@@ -60,5 +61,5 @@ const seats = rows.reduce((n, r) => n + Number(r.quantity), 0);
 console.log(`${scanned} completed sessions scanned; ${rows.length} orders / ${seats} seats exported to ${path.relative(ROOT, out)}`);
 console.log(`skipped: ${skipped.unpaid} unpaid, ${skipped.refunded} refunded, ${skipped.other} not from this catalogue`);
 const byType = {};
-for (const r of rows) byType[`${r.edition || "-"} / ${r.ticket_key}`] = (byType[`${r.edition || "-"} / ${r.ticket_key}`] || 0) + Number(r.quantity);
+for (const r of rows) byType[`${r.edition || "-"} / ${r.ticket_type}`] = (byType[`${r.edition || "-"} / ${r.ticket_type}`] || 0) + Number(r.quantity);
 for (const [k, n] of Object.entries(byType).sort()) console.log(`  ${k.padEnd(40)} ${n}`);
