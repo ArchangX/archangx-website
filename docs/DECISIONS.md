@@ -66,11 +66,11 @@ hard reload.
 cached. No manual version bumps to forget, and local preview is unaffected.
 **Revisit when.** The site moves to a host that allows custom cache headers, or gains a build step.
 
-## D8. Seraphim Guardian: honest readiness, Aurora stays conceptual (2026-11-08)
+## D8. Metatron Guardian: honest readiness, Aurora stays conceptual (2026-11-08)
 
-**Context.** The wildfire work became a product family, Seraphim Guardian (`guardian.html`), with Guardian Uriel
+**Context.** The wildfire work became a product family, Metatron Guardian (`guardian.html`), with Guardian Uriel
 (wildfire intelligence, the former ML Wildfire Detection page at the same URL) and Guardian Aurora (Arctic early
-warning). Brand language and diagrams: `docs/SERAPHIM_GUARDIAN.md`.
+warning). Brand language and diagrams: `docs/METATRON_GUARDIAN.md`.
 **Decision.** Every capability on the Guardian pages carries a readiness label: Designed (written down in the
 research), Prototype (running in the digital twin on synthetic data) or Research target (not yet built). Guardian
 Aurora is presented only as a conceptual, non-operational research module: no target tracking, interception
@@ -81,3 +81,13 @@ posture (a constant watch), never as a technological capability.
 defence capability would damage credibility and could carry regulatory consequences.
 **Revisit when.** Flight data or an approved programme changes a label or Aurora's status; change the page and this
 record together.
+
+## D10. Seraphim renamed Metatron (2026-11-16)
+
+**Context.** Shahin renamed the platform: the space data centre and its technology stack, the Guardian product family,
+the digital twin and the 2027 summit are now called Metatron (Metatron Guardian, Metatron Summit 2027).
+**Decision.** Every page, document and file name in this repository uses Metatron. Page URLs did not contain the
+name, so no links changed. The word inside the two SDC-IO diagrams on `exhibitions.html` was repainted in Segoe UI
+to match; redraw them from their source if one exists. The Space Data Centre repository keeps its own names
+(`Seraphim_Guardian/`).
+**Revisit when.** Text on outside platforms (Luma, LinkedIn, Stripe product descriptions) is updated by hand.

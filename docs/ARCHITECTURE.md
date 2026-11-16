@@ -47,7 +47,7 @@ page. Nobody needs to clear their cache. The source files keep plain URLs (see [
 
 ```mermaid
 flowchart TB
-  H[index.html<br/>Home: how it fits together] --> G[guardian.html<br/>Seraphim Guardian]
+  H[index.html<br/>Home: how it fits together] --> G[guardian.html<br/>Metatron Guardian]
   G --> W[wildfire.html<br/>Guardian Uriel]
   G --> AU[guardian-aurora.html<br/>Guardian Aurora]
   H --> S[technology-stack.html<br/>Technology Stack]
@@ -59,12 +59,12 @@ flowchart TB
   S <-->|modelled by| T
   T -->|protects the mission of| W
   AU --> T
-  X --> SU[summit-2027.html<br/>Seraphim Summit 2027]
+  X --> SU[summit-2027.html<br/>Metatron Summit 2027]
   X --> CO
   AB --> CO
 ```
 
-The content model mirrors the company's own architecture: **Seraphim Guardian (Guardian Uriel) is the product on top**,
+The content model mirrors the company's own architecture: **Metatron Guardian (Guardian Uriel) is the product on top**,
 running on the **Technology Stack**, which the **Digital Twin** models. Those three pages cross-link through a
 "Connected" strip, and the home page draws the same structure.
 
@@ -105,7 +105,7 @@ docs/                      this documentation
 - No server-side code, database or user accounts: nothing to breach or patch on our side.
 - No cookies, analytics, trackers, external fonts or scripts: no third party sees the visitors.
 - The contact form never transmits data; it opens the visitor's own email app with a pre-filled message.
-- Exception: the Seraphim Summit registration form (`summit-2027.html`) posts the registrant's details to
+- Exception: the Metatron Summit registration form (`summit-2027.html`) posts the registrant's details to
   FormSubmit (formsubmit.co), which emails them to shahin.vakilinia@archangx.com. Nothing is stored by the site;
   personal email domains are refused in the browser. The address was activated once via FormSubmit's confirmation email.
 - HTTPS everywhere: Let's Encrypt certificate for `www.archangx.com` and `archangx.com`, renewed by GitHub;

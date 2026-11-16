@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seraphim Technology Stack: 21 layers of a space data centre — ArchangX</title>
-<meta name="description" content="Seraphim, ArchangX's space data centre stack: 21 layers in six bands, from orbit and power to data, AI and agents, plus seven planes that cut across all of them.">
+<title>Metatron Technology Stack: 21 layers of a space data centre — ArchangX</title>
+<meta name="description" content="Metatron, ArchangX's space data centre stack: 21 layers in six bands, from orbit and power to data, AI and agents, plus seven planes that cut across all of them.">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta property="og:title" content="Seraphim Technology Stack: 21 layers of a space data centre — ArchangX">
+<meta property="og:title" content="Metatron Technology Stack: 21 layers of a space data centre — ArchangX">
 <meta property="og:description" content="How a constellation of satellites becomes a data centre in orbit: 21 layers, 7 cross-cutting planes, 10 Gb/s optical links and an alert on the ground in about 1.5 minutes. Every layer modelled before it flies.">
 <meta property="og:image" content="https://www.archangx.com/assets/logo.png">
 <link rel="canonical" href="https://www.archangx.com/technology-stack.html">
@@ -25,7 +25,7 @@
   <div class="crumbs"><a href="index.html">Home</a> / Technology Stack</div>
   <span class="eyebrow">Technology Stack</span>
   <h1>The space data centre, <span class="flame-text">layer by layer</span></h1>
-  <p>Seraphim is the software and protocol stack that turns a constellation of satellites into a data centre in orbit. It spans 21 layers, from the orbit itself to the applications people use, and seven planes that cut across all of them: security, sovereignty, regulation, risk, the digital twin, operations and engineering governance. Every layer is designed together, and every layer is modelled in our digital twin before anything flies.</p>
+  <p>Metatron is the software and protocol stack that turns a constellation of satellites into a data centre in orbit. It spans 21 layers, from the orbit itself to the applications people use, and seven planes that cut across all of them: security, sovereignty, regulation, risk, the digital twin, operations and engineering governance. Every layer is designed together, and every layer is modelled in our digital twin before anything flies.</p>
   <dl class="stats" aria-label="Key figures">
     <div><dt>21</dt><dd>layers, 7 cross-cutting planes</dd></div>
     <div><dt>41–56 ms</dt><dd>onboard detection, ~1.5 min alert to ground (p95)</dd></div>
@@ -55,7 +55,7 @@
   <div class="head"><span class="eyebrow">Bottom to top</span><h2>Twenty-one layers, six bands</h2>
     <p>Select a band to see its layers; each layer opens its description below. The bar on the right is the seven planes that cut across every band.</p></div>
   <div class="stackviz">
-    <div class="bands" aria-label="The six bands of the Seraphim stack, top to bottom">
+    <div class="bands" aria-label="The six bands of the Metatron stack, top to bottom">
       <div class="band b6">
         <button type="button" aria-expanded="false" aria-controls="band6-layers"><span class="band-name">AI, agents and applications</span><span class="band-range">L17–L21</span><span class="caret" aria-hidden="true"></span></button>
         <div class="chips" id="band6-layers" hidden>
@@ -109,7 +109,7 @@
     <dl>
       <div><dt>What it does</dt><dd>the job of the layer in one or two sentences</dd></div>
       <div><dt>Technologies and standards</dt><dd>what it is built from</dd></div>
-      <div><dt>Seraphim design choices</dt><dd>the decisions that make it work in orbit</dd></div>
+      <div><dt>Metatron design choices</dt><dd>the decisions that make it work in orbit</dd></div>
       <div><dt>Key numbers</dt><dd>measured or simulated figures from our papers and digital twin</dd></div>
       <div><dt>Watched by</dt><dd>the assurance agent and digital-twin model that monitor it</dd></div>
     </dl>
@@ -126,7 +126,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l01-details">Details</button>
       <div class="details" id="l01-details">
         <h4>Technologies and standards</h4><p>Low Earth orbit constellation design (Walker-star); J2 orbital perturbation models; space-weather feeds (Kp index, solar particle events, polar-cap plasma vortices); conjunction data messages for debris; ECSS and NASA environment standards.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>4 orbital planes × 12 satellites at 550 km, in multi-LTAN sun-synchronous planes; 12 per plane is the minimum that keeps every satellite in line of sight of its neighbours.</li>
           <li>The dawn–dusk plane is the power reference; eclipse seasons of the other planes (up to ~20 min) are budgeted explicitly.</li>
           <li>Space weather is an operating input, not a footnote: a polar-cap vortex detector catches "space hurricanes" that Kp-based rules miss.</li>
@@ -141,7 +141,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l02-details">Details</button>
       <div class="details" id="l02-details">
         <h4>Technologies and standards</h4><p>Launch-qualified structures; random-vibration and shock qualification; thermal-vacuum (TVAC) testing; conduction-cooled module mounting; ECSS-E-ST-32 structural standards.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Conduction-only design: there is no air, so every watt must travel through metal to a radiator.</li>
           <li>Compute is packaged as replaceable tiles so nodes can be refreshed on a roughly four-year cycle.</li>
           <li>Heavy parts (capacitor cans, toroidal magnetics) are bolted, not glued, to survive launch.</li></ul>
@@ -161,7 +161,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l03-details">Details</button>
       <div class="details" id="l03-details">
         <h4>Technologies and standards</h4><p>High-voltage DC bus (300–800 V); silicon-carbide (SiC) and gallium-nitride (GaN) converters; solid-state power controllers; distributed-gap ferrite magnetics; film DC-link capacitors; lessons from terrestrial 800 V DC and solid-state transformers.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>High voltage means lower current, lighter harness and lower losses; partial discharge and arcing in near-vacuum are designed against explicitly.</li>
           <li>Rad-hard GaN (qualified to ~300 V today) is the switching technology of choice; commercial SiC is derated because heavy ions can burn it out well below its rating.</li>
           <li>Solid-state breakers and SSPCs for routine protection; mechanical contactors only as one-time safing switches.</li></ul>
@@ -175,7 +175,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l04-details">Details</button>
       <div class="details" id="l04-details">
         <h4>Technologies and standards</h4><p>Solar arrays; Li-ion cells (space-qualified, or upscreened automotive cells at constellation scale); battery management systems; on the ground, second-life EV battery storage for the sovereign core.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Battery state of charge never goes below a 30 % protection floor, whatever the workload.</li>
           <li>Compute jobs are classed by importance (Class I mission-critical, II important, III deferrable), so energy shortfalls shed the least important work first.</li>
           <li>Forecasts of sunlight and load feed the scheduler a full orbit ahead.</li></ul>
@@ -189,7 +189,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l05-details">Details</button>
       <div class="details" id="l05-details">
         <h4>Technologies and standards</h4><p>Radiators; heat pipes and pumped loops; phase-change material (PCM) thermal buffers; cold plates; thermal-network (RC) modelling.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Radiators are sized to the orbit-average load; PCM absorbs bursts and refreezes in the idle half-orbit, so the radiator doesn't have to be sized to the peak.</li>
           <li>The PCM's melt fraction is a term in the scheduler's decision, so heavy tasking can't silently exhaust the buffer.</li>
           <li>A receding-horizon optimiser (linear programme, ~10 ms per step) plans compute against power and heat together.</li></ul>
@@ -209,7 +209,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l06-details">Details</button>
       <div class="details" id="l06-details">
         <h4>Technologies and standards</h4><p>Radiation-tolerant GPU and TPU-class accelerators; NVIDIA edge-class modules (Jetson/IGX-class) for development and hardware-in-the-loop testing; FPGAs; radiation-hardened microcontrollers (e.g. Microchip HPSC class).</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Two kinds of compute: FPGAs for deterministic work (frame hashing, signing, the physics gate), accelerators for AI.</li>
           <li>Radiation effects are measured and designed for: silent data corruption is caught by a physics verifier rather than assumed away.</li>
           <li>Sensor frames are hashed and signed in the FPGA, before any software can touch them.</li></ul>
@@ -223,7 +223,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l07-details">Details</button>
       <div class="details" id="l07-details">
         <h4>Technologies and standards</h4><p>Radiation-tolerant NAND flash with strong error correction; scrubbing; write-once evidence partitions.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Raw frames live in a ring buffer and are dropped once their event is safely copied to a neighbour.</li>
           <li>Evidence (signed events, audit logs) is write-once, so nothing can be quietly altered.</li></ul>
         <div class="numbers"><h4>Key numbers</h4><p>Sensing payload <b>~4.3 Mb/s</b> · per-node backlog <b>≤ 17 kB</b> with four ground stations and in-plane relay.</p></div>
@@ -236,7 +236,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l08-details">Details</button>
       <div class="details" id="l08-details">
         <h4>Technologies and standards</h4><p>Optical inter-satellite terminals (1550 nm); Ka-band and optical ground terminals; SpaceWire and SpaceFibre; onboard packet switching.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Two optical terminals per aggregation node, one forward and one aft in the plane, forming a ring.</li>
           <li>A wide-beam RF terminal as fallback when optical alignment drops at polar crossings.</li></ul>
         <div class="numbers"><h4>Key numbers</h4><p><b>10 Gb/s</b> per optical terminal · <b>20 Gb/s</b> per plane to an optical ground station.</p></div>
@@ -255,7 +255,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l09-details">Details</button>
       <div class="details" id="l09-details">
         <h4>Technologies and standards</h4><p>CCSDS 141.0-B-1 optical communications; Ka-band with DVB-S2X adaptive coding and modulation; CCSDS AOS/USLP framing; 3GPP non-terrestrial network (NTN) links (Releases 17–19, toward 6G in Release 21); ISED and ITU spectrum filings.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Eight link classes, each with a defined role: in-plane optical (backbone), cross-plane optical (when available), Ka feeder, optical downlink, RF fallback, 6G NTN, sensor I/O, telemetry and command.</li>
           <li>A predictive seven-state link machine driven from the contact plan: make-before-break, not break-then-recover, with hysteresis on every transition.</li>
           <li>The alert path never depends on the cross-plane mesh.</li></ul>
@@ -269,7 +269,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l10-details">Details</button>
       <div class="details" id="l10-details">
         <h4>Technologies and standards</h4><p>Delay-tolerant networking: Bundle Protocol v7 (RFC 9171) with BPSec (RFC 9172); contact-graph routing; custody transfer; CCSDS TM/TC with Space Data Link Security (SDLS).</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Custody: a satellite that captures data hands a copy to its in-plane neighbour within 10 seconds, so losing one satellite can't lose data.</li>
           <li>Routing from the predicted contact plan, not from discovery, because the geometry is known in advance.</li>
           <li>Alerts travel on a priority lane with a short per-hop authentication code; the full post-quantum signature follows on the durable path.</li></ul>
@@ -283,7 +283,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l11-details">Details</button>
       <div class="details" id="l11-details">
         <h4>Technologies and standards</h4><p>Secure boot with hardware root of trust; A/B firmware images with anti-rollback; hardened Linux; lightweight virtualization and partitioning for mixed-criticality workloads; remote attestation (IETF RATS).</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Every node proves what it is running before it is trusted (attestation no older than 24 hours).</li>
           <li>Updates are atomic and reversible; a rollback can never be used to install an older, vulnerable version.</li>
           <li>Mission-critical functions (detection, alerting) are isolated from deferrable workloads.</li></ul>
@@ -297,7 +297,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l12-details">Details</button>
       <div class="details" id="l12-details">
         <h4>Technologies and standards</h4><p>In orbit: lightweight Kubernetes (K3s/KubeEdge class) and WebAssembly runtimes, designed for clusters that lose contact. On the ground: Kubernetes (Google Kubernetes Engine Autopilot with confidential nodes), Terraform, CI/CD and GitOps.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>"After Kubernetes": the in-orbit scheduler must keep working for an hour without a control plane, so decisions are made locally and reconciled later.</li>
           <li>Placement is energy-, heat- and link-aware: a job runs where there is power, thermal headroom and a path to its consumer.</li>
           <li>Every deployed artefact (container, model, policy, prompt) is signed and content-addressed.</li></ul>
@@ -311,7 +311,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l13-details">Details</button>
       <div class="details" id="l13-details">
         <h4>Technologies and standards</h4><p>OpenTelemetry (metrics, logs, traces); SLO burn-rate alerting; Grafana / Cloud Monitoring; anomaly detectors (interquartile-range thresholds on forecast residuals, CUSUM, Poisson fleet statistics).</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>One telemetry pipeline for protocols, services and agents alike.</li>
           <li>Health is a margin vector per layer, with the binding limit named, not a single score; stale data is reported as UNKNOWN, never as fine.</li>
           <li>Three layers of outlier detection: inside the computation (physics verifier), per telemetry channel, and across the fleet.</li></ul>
@@ -331,7 +331,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l14-details">Details</button>
       <div class="details" id="l14-details">
         <h4>Technologies and standards</h4><p>Kafka-style append-only log (Apache Kafka / Strimzi on the ground; Pulsar-style tiered storage considered in orbit); MQTT and CoAP at the sensor edge; a bridge over Bundle Protocol v7.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Ten topics carry everything: raw optical, thermal and SAR frames; health telemetry; wildfire and perimeter events; compute jobs; tasking plans; priority alerts; model updates.</li>
           <li>At-least-once delivery with content-hash identity, so duplicates are harmless.</li>
           <li>Custody before publish: a record is visible only once its neighbour holds a copy.</li>
@@ -346,7 +346,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l15-details">Details</button>
       <div class="details" id="l15-details">
         <h4>Technologies and standards</h4><p>Lakehouse tables (Apache Iceberg), Parquet and Zarr; object storage with Object Lock for evidence; on the ground, BigQuery, Bigtable and Spanner-class stores.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Four tiers: edge ring buffer → plane hot cache → plane lakehouse → sovereign ground core.</li>
           <li>Caches are sized by each product's staleness budget (its update cadence plus one missed delivery) and pre-fetched from the contact plan.</li>
           <li>Replication is write-through within a plane and eventually consistent across planes.</li></ul>
@@ -360,7 +360,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l16-details">Details</button>
       <div class="details" id="l16-details">
         <h4>Technologies and standards</h4><p>STAC catalogue and ISO 19115/19157 metadata; conflict-free replicated data types (CRDTs) for the catalogue; data lineage; Dataplex-class governance on the ground.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Four sovereignty classes: S1 public products, S2 imagery, S3 defence-relevant (in-region only), S4 restricted (air-gapped, never in orbit).</li>
           <li>The catalogue converges even after a plane has been out of contact for an orbit.</li>
           <li>Lineage is ordered by producer sequence numbers, not GNSS time, so a spoofed clock can't reorder history.</li></ul>
@@ -380,7 +380,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l17-details">Details</button>
       <div class="details" id="l17-details">
         <h4>Technologies and standards</h4><p>Thermal-infrared, mid-wave infrared and visible imagery; physics-based fire detection (Planck-law thresholds); small convolutional neural networks; optimisation (linear programming, MILP, adaptive large-neighbourhood search); learned contact prediction.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>A physics gate first (cheap, explainable, removes 93 % of false candidates in clean scenes), then a small neural verifier on the survivors.</li>
           <li>A seven-state fire tracker with dual thresholds and persistence, so one hot frame never becomes a false alarm to a fire crew.</li>
           <li>Classical solvers for tasking: our own analysis shows they solve in milliseconds for constellations under 50 satellites. Quantum stays a benchmarked research path, not a dependency.</li>
@@ -395,7 +395,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l18-details">Details</button>
       <div class="details" id="l18-details">
         <h4>Technologies and standards</h4><p>Federated learning over inter-satellite links; low-rank adapters (LoRA); model registry and signing; drift monitoring; Vertex AI-class training on the ground.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Models learn where the data is: small adapters (~80 MB) are trained in orbit and aggregated over the ISL mesh.</li>
           <li>Every model and every detection threshold is a signed, versioned artefact.</li>
           <li>A human approves every promotion to production.</li></ul>
@@ -409,7 +409,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l19-details">Details</button>
       <div class="details" id="l19-details">
         <h4>Technologies and standards</h4><p>Macro-agents, MicroAgents and Skills; Model Context Protocol (MCP) with read-only tool allow-lists; pinned models; conformal prediction for faithfulness; OpenTelemetry span tracing.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>A routing-only orchestrator calls macro-agents, one per layer; each runs a fixed workflow over MicroAgents (a prompt, an allow-list of tools and a pinned model), which use deterministic Skills.</li>
           <li>Agents observe and recommend; they never write to the command bus, the alert topic or model updates.</li>
           <li>Every numeric claim must match the cited events exactly; every qualitative claim passes a statistical faithfulness gate or goes to a human.</li>
@@ -420,11 +420,11 @@
     </article>
     <article class="card layercard" id="l20">
       <div class="layer-head"><span class="code">L20</span><h3>APIs, microservices and integration</h3></div>
-      <p class="what"><b>What it does.</b> How customers, partners and other networks connect to Seraphim.</p>
+      <p class="what"><b>What it does.</b> How customers, partners and other networks connect to Metatron.</p>
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l20-details">Details</button>
       <div class="details" id="l20-details">
         <h4>Technologies and standards</h4><p>Event APIs on the Zone-0 topics; REST and gRPC services; Apigee-class API management; agent-to-agent interfaces; 3GPP interfaces for on-board service hosting and computing-context transfer between satellites.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Every external call is authorised on identity, attestation, capability, freshness, data class, budget and policy version.</li>
           <li>Partner constellations and 6G networks connect through standard interfaces rather than custom integrations.</li></ul>
         <div class="numbers"><h4>Key numbers</h4><p>Hosting <b>40–60 %</b> of services on board cuts feeder traffic from <b>1,100</b> to <b>660–450 Gb/s</b> · context transfer between satellites <b>≤ 100 MB</b>.</p></div>
@@ -437,7 +437,7 @@
       <button type="button" class="details-toggle" aria-expanded="false" aria-controls="l21-details">Details</button>
       <div class="details" id="l21-details">
         <h4>Technologies and standards</h4><p>Alert delivery to agencies and responders; operator consoles; dashboards; a bilingual public website; the digital twin offered as a service.</p>
-        <h4>Seraphim design choices</h4><ul>
+        <h4>Metatron design choices</h4><ul>
           <li>Wildfire detection and alerting for CIFFC, provincial agencies and responders.</li>
           <li>Early warning for defence and NORAD.</li>
           <li>Compute and data services for satellite operators and Canadian carriers (Telus, Bell, Rogers, Québecor Média).</li>
@@ -497,7 +497,7 @@
 <section class="block night">
   <div class="wrap two">
     <div class="head"><span class="eyebrow">Closing</span><h2>Build it with us</h2>
-      <p>Seraphim Summit 2027: Toronto, 21–22 June, and Montréal, 14–15 July. <a href="mailto:Shahin.Vakilinia@ArchangX.com">Shahin.Vakilinia@ArchangX.com</a></p></div>
+      <p>Metatron Summit 2027: Toronto, 21–22 June, and Montréal, 14–15 July. <a href="mailto:Shahin.Vakilinia@ArchangX.com">Shahin.Vakilinia@ArchangX.com</a></p></div>
     <div class="actions center"><a class="btn" href="summit-2027.html">Summit 2027</a><a class="btn ghost" href="contact.html">Contact</a></div>
   </div>
 </section>
