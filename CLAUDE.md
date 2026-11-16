@@ -17,9 +17,9 @@ no framework, no backend. Hosted on GitHub Pages; **every push to `main` goes li
 - `docs/`: ARCHITECTURE, DEPLOYMENT (DNS/HTTPS), OPERATIONS (update, roll back, troubleshoot), DECISIONS
   (design records D1-D7), and `docs/events/` (event material, e.g. the Luma pack for Summit 2027).
 
-Pages: `index`, `guardian` (Seraphim Guardian landing), `wildfire` (Guardian Uriel), `guardian-aurora`, `technology-stack`,
+Pages: `index`, `guardian` (Metatron Guardian landing), `wildfire` (Guardian Uriel), `guardian-aurora`, `technology-stack`,
 `digital-twin`, `exhibitions`, `summit-2027`, `summit-tickets` (Stripe Payment Links; cards generated from
-`site/data/summit-tickets.json` by `tools/render_tickets.py`, never edited by hand), `summit-thanks` (noindex), `about`, `contact`. Product rules for Guardian: `docs/SERAPHIM_GUARDIAN.md`
+`site/data/summit-tickets.json` by `tools/render_tickets.py`, never edited by hand), `summit-thanks` (noindex), `about`, `contact`. Product rules for Guardian: `docs/METATRON_GUARDIAN.md`
 and decision D8 (Guardian Aurora is conceptual and non-operational; readiness labels; no unverified performance claims).
 
 ## Commands

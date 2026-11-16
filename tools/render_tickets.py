@@ -104,7 +104,7 @@ def main():
     check = "--check" in sys.argv
     data = json.loads(DATA.read_text(encoding="utf-8"))
     SUPPORT = data.get("support_email", "shahin.vakilinia@archangx.com")
-    SUBJECT = "Tickets:%20Seraphim%20Summit%202027"
+    SUBJECT = "Tickets:%20Metatron%20Summit%202027"
     stale = []
     for block, (page, _) in TARGETS.items():
         src = page.read_text(encoding="utf-8")

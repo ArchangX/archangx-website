@@ -1,16 +1,16 @@
-# Seraphim Summit 2027 Montreal: Luma event pack
+# Metatron Summit 2027: Luma event pack
 
-Copy each block into the matching Luma field (lu.ma → Create Event). Status: draft, not published. Same programme as the Toronto edition (2027-06-21-seraphim-luma.md).
+Copy each block into the matching Luma field (lu.ma → Create Event). Status: draft, not published. The Montreal edition (14-15 July) has its own pack: 2027-07-14-metatron-montreal-luma.md.
 No invitee is named as a speaker; add names only after each one confirms.
 
 ## Event settings
 
 | Luma field | Value |
 |---|---|
-| Event name | Seraphim Summit 2027 Montreal: Data Centres in Orbit |
-| Start | Wed 14 July 2027, 08:00 (America/Toronto) |
-| End | Thu 15 July 2027, 18:00 (America/Toronto). Hackathon 08:30-18:00 |
-| Location | Montreal, Quebec. Venue to be announced (choose "Location TBD") |
+| Event name | Metatron Summit 2027: Data Centres in Orbit |
+| Start | Mon 21 June 2027, 08:00 (America/Toronto) |
+| End | Tue 22 June 2027, 18:00 (America/Toronto). Hackathon 08:30-18:00 |
+| Location | Toronto, Ontario. Venue to be announced (choose "Location TBD") |
 | Visibility | Private until the venue and keynote are confirmed, then Public |
 | Tickets | Free: Canadian Space Agency, Telesat and MDA Space staff (official email), students worldwide (online) and the hackathon. Paid tier: industry and investors (price to be set); sponsors get exhibition space |
 | Require approval | **On.** Approve only work or university email addresses (see "Screening" below) |
@@ -22,31 +22,31 @@ No invitee is named as a speaker; add names only after each one confirms.
 
 **Two days on the stack that puts data centres in orbit, and the wildfire mission that proves it.**
 
-Seraphim is ArchangX's protocol stack for data centres in orbit: onboard compute, delay-tolerant data platforms, agentic operations and secure links to the ground. Its first application is wildfire detection for Canada and the world.
+Metatron is ArchangX's protocol stack for data centres in orbit: onboard compute, delay-tolerant data platforms, agentic operations and secure links to the ground. Its first application is wildfire detection for Canada and the world.
 
-We open with a welcome and land acknowledgement from an Indigenous fire-stewardship leader. First Nations communities live on the front line of wildfire.
+21 June is National Indigenous Peoples Day. We open with a welcome and land acknowledgement from an Indigenous fire-stewardship leader. First Nations communities live on the front line of wildfire.
 
-**Day 1 · Wednesday 14 July · Conference and exhibition**
+**Day 1 · Monday 21 June · Conference and exhibition**
 
 - 08:45 Welcome and land acknowledgement
 - 08:00 Registration and coffee; exhibition hall opens
-- 09:00 Opening keynote: *Seraphim, a protocol stack for data centres in orbit*, by Shahin Vakilinia (ArchangX). Live on the digital twin: a fire ignites, the satellite detects it, a 149-byte alert reaches the ground in about 90 seconds, and AI agents explain every step.
+- 09:00 Opening keynote: *Metatron, a protocol stack for data centres in orbit*, by Shahin Vakilinia (ArchangX). Live on the digital twin: a fire ignites, the satellite detects it, a 149-byte alert reaches the ground in about 90 seconds, and AI agents explain every step.
 - 09:50 Panel 1 · **Qubits in Orbit**: where quantum computing helps space data centres and where it doesn't; post-quantum cryptography and quantum key distribution between satellites
 - 10:55 Panel 2 · **From Space Weather to Sovereignty**: risk and resilience for orbital data centres, from geomagnetic storms and radiation to debris, insurance and data residency
 - 11:45 Panel 3 · **Data Platforms in Orbit**: from Kafka to the lakehouse when the network keeps disconnecting
 - 13:30 Panel 4 · **Power, Heat and Silicon**: radiation-tolerant GPUs and TPUs, high-voltage DC, thermal design, optical terminals
 - 14:20 Panel 5 · **Macro-Agents and Skills**: agentic AI that runs infrastructure, observing and recommending without commanding
 - 15:25 Panel 6 · **After Kubernetes**: orchestrating clusters that lose contact for an hour at a time
-- 16:15 Panel 7 · **AI Sovereignty, 6G and Self-Organizing Networks**: who controls data, models and networks when compute moves to orbit, and Seraphim's Canada-first connectivity plan
+- 16:15 Panel 7 · **AI Sovereignty, 6G and Self-Organizing Networks**: who controls data, models and networks when compute moves to orbit, and Metatron's Canada-first connectivity plan
 - 17:05 Panel 8 · **Fire, From Lightning to War**: onboard wildfire detection, early warning in the North, and a global fire index
 - 10:35 Break and poster session · 12:30 Lunch and a fireside conversation · 15:05 Break and a fireside conversation (partners to be announced)
 - All day: exhibition hall with the live digital twin, partner booths and a poster session for research and student work
 - 17:50 Closing: **Zero Wildfire 2030**
 - 19:00 Evening celebration (families welcome)
 
-**Day 2 · Thursday 15 July · Hackathon on the Seraphim digital twin**
+**Day 2 · Tuesday 22 June · Hackathon on the Metatron digital twin**
 
-Five tracks: fire detection, energy dispatch, agentic operations, data platform and security. Prizes. Open to students and professionals, on site in Montreal or online from anywhere.
+Five tracks: fire detection, energy dispatch, agentic operations, data platform and security. Prizes. Open to students and professionals, on site in Toronto or online from anywhere.
 
 **Registration.** Register with your work or university email. Free for Canadian Space Agency, Telesat and MDA Space staff, for students worldwide (online) and for the hackathon; industry and investors join on a paid tier, and sponsors get exhibition space. Registrations from personal addresses (Gmail, Outlook, Yahoo and similar) are not approved. Speakers and partners will be announced as they confirm.
 
@@ -73,7 +73,7 @@ me.com, aol.com, proton.me, protonmail.com, gmx.com, mail.com, yandex.com, qq.co
 Approve university domains (.edu, .ca universities, .ac.uk and similar). Students without a university email can
 be approved by hand.
 
-Suggested decline message: "Thanks for your interest in Seraphim Summit 2027. Registration is open to work and
+Suggested decline message: "Thanks for your interest in Metatron Summit 2027. Registration is open to work and
 university email addresses; please register again with one of those."
 
 ## Before publishing
