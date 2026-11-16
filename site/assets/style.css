@@ -357,7 +357,7 @@ ol.timeline h3 + p { margin-top: 6px; color: var(--muted); font-size: 16px; }
   a.card, .btn, .announce, .fit a, .slide img { transition: none; }
 }
 
-/* Seraphim Guardian: product family. Uriel is amber and gold (fire, light); Aurora is polar blue and aurora green. */
+/* Metatron Guardian: product family. Uriel is amber and gold (fire, light); Aurora is polar blue and aurora green. */
 :root { --gold: #e3b341; --uriel: #f29a2e; --uriel-ink: #a65a0c; --polar: #4fb8e8; --polar-ink: #1a6f94; --aurora-green: #3fd9a4; }
 .product.uriel { border-top: 4px solid var(--uriel); }
 .product.aurora { border-top: 4px solid var(--polar); }

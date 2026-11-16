@@ -5,8 +5,8 @@ No servers, no third-party scripts or fonts.
 
 | Page | File |
 |---|---|
-| Home: how it fits together (Seraphim Guardian on top of the Technology Stack ⇄ Digital Twin) | `site/index.html` |
-| Seraphim Guardian: The Eternal Watch (product family landing page) | `site/guardian.html` |
+| Home: how it fits together (Metatron Guardian on top of the Technology Stack ⇄ Digital Twin) | `site/index.html` |
+| Metatron Guardian: The Eternal Watch (product family landing page) | `site/guardian.html` |
 | Guardian Uriel: wildfire intelligence | `site/wildfire.html` |
 | Guardian Aurora: conceptual Arctic early-warning research module | `site/guardian-aurora.html` |
 | Technology Stack of Space Data Centres | `site/technology-stack.html` |
@@ -17,7 +17,7 @@ No servers, no third-party scripts or fonts.
 
 Documentation: [architecture and diagrams](docs/ARCHITECTURE.md) · [deployment, DNS and HTTPS](docs/DEPLOYMENT.md) ·
 [operations: update, roll back, troubleshoot](docs/OPERATIONS.md) · [design decisions](docs/DECISIONS.md) ·
-[Seraphim Guardian product family](docs/SERAPHIM_GUARDIAN.md)
+[Metatron Guardian product family](docs/METATRON_GUARDIAN.md)
 
 ## Edit the site
 - Text: `site/<page>.html` · styles for every page: `site/assets/style.css`

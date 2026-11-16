@@ -1,20 +1,21 @@
-# Seraphim Guardian: The Eternal Watch
+# Metatron Guardian: The Eternal Watch
 
 Product family introduced on the website on 2026-11-08. This document records the brand language, the product
 hierarchy, the architecture the pages describe, and the rules the pages must follow.
 
 **Scope.** This repository is the public website only. The research codebase, the Digital Twin application, the
-Codex documentation set (`Seraphim_Guardian/README.md`, `PRODUCT_VISION.md`, ... `GITHUB_GCP_DEVOPS.md`) and the
+Codex documentation set (`Seraphim_Guardian/README.md`, under the earlier name, `PRODUCT_VISION.md`, ...
+`GITHUB_GCP_DEVOPS.md`) and the
 GitHub-to-GCP delivery pipeline live in the Space Data Centre repository and are maintained there.
 
 ## Brand language
 
 | | |
 |---|---|
-| Family | **SERAPHIM GUARDIAN** — *The Eternal Watch* |
+| Family | **METATRON GUARDIAN** — *The Eternal Watch* |
 | Guardian Uriel | Wildfire Intelligence. Tagline: *Celestial Intelligence Protecting Life on Earth.* Line: *Intelligence that sees the first spark.* |
 | Guardian Aurora | Arctic Early Warning (conceptual research module). Tagline: *The Northern Light of Eternal Vigil.* Line: *Vigilance beyond the northern horizon.* |
-| Unifying statement | *From the first spark upon the Earth to the distant horizons of the Arctic sky, Seraphim Guardian envisions a future where celestial intelligence serves awareness, protection, and the preservation of life.* |
+| Unifying statement | *From the first spark upon the Earth to the distant horizons of the Arctic sky, Metatron Guardian envisions a future where celestial intelligence serves awareness, protection, and the preservation of life.* |
 
 Colours (tokens in `site/assets/style.css`): deep navy and midnight blue for space (the existing `--night` band and the
 Earth gradient), celestial gold `--gold`, Uriel amber `--uriel`, Aurora polar blue `--polar` and aurora green
@@ -24,7 +25,7 @@ Earth gradient), celestial gold `--gold`, Uriel amber `--uriel`, Aurora polar bl
 
 | Page | File | Role |
 |---|---|---|
-| Seraphim Guardian | `site/guardian.html` | Landing page: identity, mission statement, two product cards, shared platform, digital twin demos, readiness, partnership |
+| Metatron Guardian | `site/guardian.html` | Landing page: identity, mission statement, two product cards, shared platform, digital twin demos, readiness, partnership |
 | Guardian Uriel | `site/wildfire.html` | Wildfire intelligence product (URL kept from the former "ML Wildfire Detection" page) |
 | Guardian Aurora | `site/guardian-aurora.html` | Conceptual, non-operational research module |
 | Digital Twin | `site/digital-twin.html#guardian` | The two selectable demonstrations |
@@ -33,10 +34,10 @@ Earth gradient), celestial gold `--gold`, Uriel amber `--uriel`, Aurora polar bl
 
 ```mermaid
 flowchart TB
-  SG[SERAPHIM GUARDIAN<br/>The Eternal Watch]
+  SG[METATRON GUARDIAN<br/>The Eternal Watch]
   SG --> U[Guardian Uriel<br/>Wildfire Intelligence<br/>product]
   SG --> A[Guardian Aurora<br/>Arctic Early Warning<br/>conceptual research module]
-  SG --> P[Shared orbital data platform<br/>Seraphim technology stack]
+  SG --> P[Shared orbital data platform<br/>Metatron technology stack]
   U --> UD[Uriel demo: Earth map,<br/>simulated detections]
   A --> AD[Aurora demo: Arctic view,<br/>synthetic warning lifecycle]
   P --> T[Digital Twin]
@@ -112,7 +113,7 @@ Rules for Aurora, on every page and demonstration:
 
 ```mermaid
 flowchart TB
-  TW[Seraphim Digital Twin<br/>orbit, power, thermal, compute, network] --> SEL{Selectable demonstration}
+  TW[Metatron Digital Twin<br/>orbit, power, thermal, compute, network] --> SEL{Selectable demonstration}
   SEL --> U[Guardian Uriel<br/>Earth map, simulated detections,<br/>thermal anomalies, confidence and severity,<br/>satellite-to-ground event flow]
   SEL --> A[Guardian Aurora<br/>Arctic-centred view, conceptual coverage,<br/>synthetic warning-event lifecycle,<br/>provenance and authorized-review status]
   U -. synthetic data .-> N[Clearly marked as synthetic]
@@ -123,7 +124,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  H[index.html<br/>Home] --> G[guardian.html<br/>Seraphim Guardian]
+  H[index.html<br/>Home] --> G[guardian.html<br/>Metatron Guardian]
   G --> W[wildfire.html<br/>Guardian Uriel]
   G --> AU[guardian-aurora.html<br/>Guardian Aurora]
   H --> S[technology-stack.html]
