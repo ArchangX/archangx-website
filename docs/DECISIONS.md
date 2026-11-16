@@ -87,7 +87,7 @@ record together.
 **Context.** Shahin renamed the platform: the space data centre and its technology stack, the Guardian product family,
 the digital twin and the 2027 summit are now called Metatron (Metatron Guardian, Metatron Summit 2027).
 **Decision.** Every page, document and file name in this repository uses Metatron. Page URLs did not contain the
-name, so no links changed. The two SDC-IO diagrams on `exhibitions.html` still show "Seraphim" inside the image
-until they are redrawn, and the Space Data Centre repository keeps its own names (`Seraphim_Guardian/`).
-**Revisit when.** Nothing to revisit; text on outside platforms (Luma, LinkedIn, Stripe product descriptions) is
-updated by hand.
+name, so no links changed. The word inside the two SDC-IO diagrams on `exhibitions.html` was repainted in Segoe UI
+to match; redraw them from their source if one exists. The Space Data Centre repository keeps its own names
+(`Seraphim_Guardian/`).
+**Revisit when.** Text on outside platforms (Luma, LinkedIn, Stripe product descriptions) is updated by hand.
