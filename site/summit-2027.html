@@ -103,7 +103,7 @@
     <label for="rg-email">Work or university email<input id="rg-email" name="email" type="email" required autocomplete="email"></label>
     <label for="rg-org">Organization<input id="rg-org" name="organization" required autocomplete="organization"></label>
     <label for="rg-role">Job title or role<input id="rg-role" name="role" required autocomplete="organization-title"></label>
-    <label for="rg-phone">Phone number<input id="rg-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" pattern="[+0-9 ()./-]{7,25}" placeholder="+1 514 555 0123"></label>
+    <label for="rg-phone">Phone number<input id="rg-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" pattern="[0-9 +.\(\)\/\-]{7,25}" title="Digits, spaces and + ( ) - . / only" placeholder="+1 514 555 0123"></label>
     <label for="rg-city">City<select id="rg-city" name="city" required><option value="">Choose a city</option><option value="Toronto">Toronto, 21–22 June</option><option value="Montreal">Montreal, 14–15 July</option></select></label>
     <label for="rg-linkedin">LinkedIn profile (optional)<input id="rg-linkedin" name="linkedin" type="url" autocomplete="url" placeholder="https://www.linkedin.com/in/your-name"></label>
     <fieldset><legend>Days you will attend</legend>
@@ -136,7 +136,13 @@
     e.preventDefault();
     const f = form.elements, v = n => f[n].value.trim();
     const days = [...form.querySelectorAll("input[name=days]:checked")].map(c => c.value);
-    if (!form.checkValidity()) { say("Please fill in every required field (valid email and phone number).", false); form.reportValidity(); return; }
+    // "linkedin.com/in/name" without https:// would fail the url check with a confusing message
+    if (v("linkedin") && !/^https?:\/\//i.test(v("linkedin"))) f.linkedin.value = "https://" + v("linkedin");
+    if (!form.checkValidity()) {
+      const bad = [...f].find(el => el.willValidate && !el.validity.valid);
+      const name = bad && bad.closest("label") ? bad.closest("label").firstChild.textContent.trim() : "";
+      say(name ? "Please fill in or correct: " + name + "." : "Please fill in every required field.", false); form.reportValidity(); return;
+    }
     if (personal.test(v("email"))) { say("Please use your work or university email; personal addresses are not accepted.", false); f.email.focus(); return; }
     if (v("linkedin") && !/^https?:\/\/([a-z]{2,3}\.)?linkedin\.com\//i.test(v("linkedin"))) { say("Please enter a LinkedIn link (https://www.linkedin.com/in/…) or leave it empty.", false); f.linkedin.focus(); return; }
     if (!days.length) { say("Please choose at least one day.", false); return; }
