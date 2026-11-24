@@ -55,6 +55,7 @@ flowchart TB
   H --> X[exhibitions.html<br/>Exhibitions]
   H --> AB[about.html<br/>About]
   H --> CO[contact.html<br/>Contact]
+  H -.->|footer| PR[privacy.html<br/>Privacy policy]
   G <-->|runs on| S
   S <-->|modelled by| T
   T -->|protects the mission of| W
@@ -72,7 +73,7 @@ running on the **Technology Stack**, which the **Digital Twin** models. Those th
 
 ```
 site/                      everything that is published
-  index.html ... contact.html   the eight pages (plain HTML, shared header, nav and footer)
+  index.html ... privacy.html   the pages (plain HTML, shared header, nav and footer)
   assets/style.css         one stylesheet for all pages (brand palette and components)
   assets/logo.png          full logo, light backgrounds      (from Logo/Files/logo, 900 px)
   assets/logo-dark.png     full logo with white wordmark, dark backgrounds
@@ -108,6 +109,8 @@ docs/                      this documentation
 - Exception: the Metatron Summit registration form (`summit-2027.html`) posts the registrant's details to
   FormSubmit (formsubmit.co), which emails them to shahin.vakilinia@archangx.com. Nothing is stored by the site;
   personal email domains are refused in the browser. The address was activated once via FormSubmit's confirmation email.
+- `privacy.html` (linked from every footer, and from the registration form) is the public privacy policy. It must
+  match what the site really does: update it whenever a form, a payment flow or a service provider is added or changed.
 - HTTPS everywhere: Let's Encrypt certificate for `www.archangx.com` and `archangx.com`, renewed by GitHub;
   "Enforce HTTPS" is on, so `http://` redirects to `https://`.
 - The domain is verified on the ArchShahin account, so no other GitHub account can publish under it.

@@ -18,7 +18,8 @@ no framework, no backend. Hosted on GitHub Pages; **every push to `main` goes li
   (design records D1-D7), and `docs/events/` (event material, e.g. the Luma pack for Summit 2027).
 
 Pages: `index`, `guardian` (Metatron Guardian landing), `wildfire` (Guardian Uriel), `guardian-aurora`, `technology-stack`,
-`digital-twin`, `exhibitions`, `summit-2027`, `about`, `contact`. Product rules for Guardian: `docs/METATRON_GUARDIAN.md`
+`digital-twin`, `exhibitions`, `summit-2027`, `about`, `contact`, `privacy` (privacy policy; footer link only; it must
+describe what the site really collects, so update it when a form, payment flow or service provider changes). Product rules for Guardian: `docs/METATRON_GUARDIAN.md`
 and decision D8 (Guardian Aurora is conceptual and non-operational; readiness labels; no unverified performance claims).
 
 ## Commands
@@ -31,7 +32,7 @@ There are no tests, package manager or dependencies beyond Python 3 for the chec
 ## Rules when editing
 - **Header and footer are copied into every page.** A nav change (adding/renaming a page) must be made in the
   `<header class="site">` and `<footer class="site">` of *all* pages, kept identical, with `aria-current="page"`
-  on the current page's nav link.
+  on the current page's nav link. Exception: `privacy.html` is linked from the footer only (last link), not the header.
 - A new page: copy an existing page, then update `<title>`, `<meta name="description">`, the `og:` tags and the
   `<link rel="canonical" href="https://www.archangx.com/<page>.html">`, add it to every nav, and add it to the
   page table in `README.md`.
