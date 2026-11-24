@@ -38,6 +38,7 @@ The previous version is live again in 1-2 minutes.
 | Symptom | Likely cause | What to do |
 |---|---|---|
 | Deploy run is red at "Check every linked file exists" | a link or image path is wrong | run `python tools/check_site.py` locally, fix the listed paths |
+| Deploy run is red at "deploy" with "No artifacts named github-pages" or "Multiple artifacts named github-pages" | a brief GitHub delay between the upload and the deploy; "Multiple" means the whole run was re-run, which uploads a second copy | open the run and use **Re-run failed jobs** (never "Re-run all jobs"), or Actions → deploy → **Run workflow** on `main` for a fresh run |
 | Change not visible | the page itself is cached for up to 10 minutes (GitHub Pages `max-age=600`) | check the Actions run finished, then reload normally; CSS and images get new URLs on every deploy, so no cache clearing is needed |
 | Old styles or images still show after a deploy and a reload | that asset link isn't a plain double-quoted `assets/<file>` path (e.g. single quotes), so the deploy didn't add a hash to it | fix the link; see "Caching" in ARCHITECTURE.md. A hand-written `?v=` fails the link check instead |
 | "Your connection isn't private" | certificate not issued yet, or expired | see DEPLOYMENT.md section 3 |
