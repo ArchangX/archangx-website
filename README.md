@@ -14,6 +14,7 @@ No servers, no third-party scripts or fonts.
 | Exhibitions | `site/exhibitions.html` |
 | About (Shahin Vakilinia) | `site/about.html` |
 | Contact | `site/contact.html` |
+| Privacy policy (footer link only) | `site/privacy.html` |
 
 Documentation: [architecture and diagrams](docs/ARCHITECTURE.md) · [deployment, DNS and HTTPS](docs/DEPLOYMENT.md) ·
 [operations: update, roll back, troubleshoot](docs/OPERATIONS.md) · [design decisions](docs/DECISIONS.md) ·
