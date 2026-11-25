@@ -91,3 +91,19 @@ name, so no links changed. The word inside the two SDC-IO diagrams on `exhibitio
 to match; redraw them from their source if one exists. The Space Data Centre repository keeps its own names
 (`Seraphim_Guardian/`).
 **Revisit when.** Text on outside platforms (Luma, LinkedIn, Stripe product descriptions) is updated by hand.
+
+## D11. FDI map generated from one data file (2026-11-25)
+
+**Context.** The FDI map (`fdi-map.html`) shows foreign investors and partners and the Canadian space, defence-tech
+and AI companies they back. It is refreshed every quarter, and its figures must never drift from the data or be
+typed by hand. The site has no build step (D1) and no third-party scripts (D4).
+**Decision.** `site/data/fdi-map.json` is the single source of truth and is published for download.
+`tools/fdi_map.py` (Python standard library) validates it and writes the map (inline SVG), the table, the counts and
+the three headline figures into marked blocks of the page, the same pattern as the ticket cards. CI runs it with
+`--check`, so invalid data or a stale page stops the deploy. A short inline script adds highlighting, the details
+panel, the filters and the map/table switch; without it the page still shows both. No charting library.
+`tools/fdi_map_png.mjs` makes the share images with the browser already installed, so it adds no dependency. The
+validator also rejects private research fields and an excluded name, because the map is public.
+**Revisit when.** The data outgrows a single page (hundreds of links), or a French version is added: the visible
+strings are in `tools/fdi_map.py` and the page.
+

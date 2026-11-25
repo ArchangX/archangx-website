@@ -10,6 +10,8 @@ no framework, no backend. Hosted on GitHub Pages; **every push to `main` goes li
 - `site/`: everything that is published. One self-contained HTML file per page, plus `site/assets/style.css`
   (shared by every page), logos and icons in `site/assets/`, `CNAME` (`www.archangx.com`) and `.nojekyll`.
 - `tools/check_site.py`: link checker that CI runs before deploying.
+- `tools/fdi_map.py`: validates `site/data/fdi-map.json` and generates the map, table and figures in `fdi-map.html`;
+  CI runs it with `--check`. `tools/fdi_map_png.mjs` (dev-only) regenerates the map's share images.
 - `tools/fingerprint_assets.sh`: CI-only cache busting; adds `?v=<content hash>` to every `assets/...` URL in the
   published copy, so browsers fetch changed CSS and images without a cache clear. It rewrites files in place: don't
   run it on your working copy.
@@ -18,7 +20,7 @@ no framework, no backend. Hosted on GitHub Pages; **every push to `main` goes li
   (design records D1-D7), and `docs/events/` (event material, e.g. the Luma pack for Summit 2027).
 
 Pages: `index`, `guardian` (Metatron Guardian landing), `wildfire` (Guardian Uriel), `guardian-aurora`, `technology-stack`,
-`digital-twin`, `exhibitions`, `summit-2027`, `about`, `contact`, `privacy` (privacy policy; footer link only; it must
+`digital-twin`, `exhibitions`, `summit-2027`, `fdi-map` (FDI map; generated, see `docs/fdi-map.md`), `about`, `contact`, `privacy` (privacy policy; footer link only; it must
 describe what the site really collects, so update it when a form, payment flow or service provider changes). Product rules for Guardian: `docs/METATRON_GUARDIAN.md`
 and decision D8 (Guardian Aurora is conceptual and non-operational; readiness labels; no unverified performance claims).
 
@@ -26,6 +28,7 @@ and decision D8 (Guardian Aurora is conceptual and non-operational; readiness la
 ```bash
 cd site && python -m http.server 8000   # preview at http://localhost:8000
 python tools/check_site.py              # must report 0 problems before pushing
+python tools/fdi_map.py --check         # FDI map data valid and page up to date
 ```
 There are no tests, package manager or dependencies beyond Python 3 for the checker.
 
@@ -43,6 +46,9 @@ There are no tests, package manager or dependencies beyond Python 3 for the chec
   domains. The contact form only opens a `mailto:` link; nothing is stored.
 - Biography content on `about.html` must come only from information Shahin has provided (decision D6). Don't
   invent degrees, roles or claims.
+- FDI map (decision D11): the page renders only from `site/data/fdi-map.json`; never type a statistic or edit a
+  generated block by hand. Every investor with links needs a source URL. The data is public: never add ArchangX's own
+  investor shortlist, priorities or approach order, or the firm the validator excludes. Follow `docs/fdi-map.md`.
 - Reference assets as plain relative paths in double quotes (`href="assets/style.css"`, `url(emblem.png)`). Never
   add `?v=` version strings by hand; the deploy adds them.
 - Line endings are LF (`.gitattributes`); keep files UTF-8.

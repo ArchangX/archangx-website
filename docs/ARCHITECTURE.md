@@ -53,6 +53,8 @@ flowchart TB
   H --> S[technology-stack.html<br/>Technology Stack]
   H --> T[digital-twin.html<br/>Digital Twin]
   H --> X[exhibitions.html<br/>Exhibitions]
+  H --> FD[fdi-map.html<br/>FDI map]
+  FD -.->|generated from| FJ[(data/fdi-map.json)]
   H --> AB[about.html<br/>About]
   H --> CO[contact.html<br/>Contact]
   H -.->|footer| PR[privacy.html<br/>Privacy policy]

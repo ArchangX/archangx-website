@@ -1,6 +1,6 @@
 # archangx.com
 
-The ArchangX website: ten static pages, hosted free on GitHub Pages, published by GitHub Actions on every push.
+The ArchangX website: static pages, hosted free on GitHub Pages, published by GitHub Actions on every push.
 No servers, no third-party scripts or fonts.
 
 | Page | File |
@@ -12,19 +12,21 @@ No servers, no third-party scripts or fonts.
 | Technology Stack of Space Data Centres | `site/technology-stack.html` |
 | Digital Twin | `site/digital-twin.html` |
 | Exhibitions | `site/exhibitions.html` |
+| FDI map: who backs Canadian space, defence tech and AI from abroad (generated from `site/data/fdi-map.json`) | `site/fdi-map.html` |
 | About (Shahin Vakilinia) | `site/about.html` |
 | Contact | `site/contact.html` |
 | Privacy policy (footer link only) | `site/privacy.html` |
 
 Documentation: [architecture and diagrams](docs/ARCHITECTURE.md) · [deployment, DNS and HTTPS](docs/DEPLOYMENT.md) ·
 [operations: update, roll back, troubleshoot](docs/OPERATIONS.md) · [design decisions](docs/DECISIONS.md) ·
-[Metatron Guardian product family](docs/METATRON_GUARDIAN.md)
+[Metatron Guardian product family](docs/METATRON_GUARDIAN.md) · [FDI map: data, rules, quarterly update](docs/fdi-map.md)
 
 ## Edit the site
 - Text: `site/<page>.html` · styles for every page: `site/assets/style.css`
 - Logos and icons: `site/assets/`
 - Preview locally: `cd site && python -m http.server 8000`, then open http://localhost:8000
 - Check links: `python tools/check_site.py`
+- FDI map: edit `site/data/fdi-map.json`, then `python tools/fdi_map.py` (see [docs/fdi-map.md](docs/fdi-map.md))
 
 ## Publish
 Commit and push to `main`. GitHub Actions (`.github/workflows/deploy.yml`) checks the page and publishes `site/`
