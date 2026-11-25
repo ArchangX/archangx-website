@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FDI map — ArchangX</title>
+<meta name="description" content="Who backs Canadian space, defence tech and AI from abroad: an interactive map and table of foreign investors and partners and the Canadian companies they back, built from public announcements and updated every quarter.">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="FDI map: who backs Canadian space, defence tech and AI from abroad">
+<meta property="og:description" content="Foreign investors and partners and the Canadian space, defence-tech and AI companies they back, from public announcements. Updated every quarter.">
+<meta property="og:image" content="https://www.archangx.com/assets/fdi-map-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="canonical" href="https://www.archangx.com/fdi-map.html">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="index.html" aria-label="ArchangX home"><img src="assets/emblem-96.png" alt="" width="64" height="25">ARCHANGX</a>
+    <nav class="main" aria-label="Pages"><a href="index.html">Home</a><a href="guardian.html">Guardian</a><a href="technology-stack.html">Technology Stack</a><a href="digital-twin.html">Digital Twin</a><a href="exhibitions.html">Exhibitions</a><a href="summit-2027.html">Summit 2027</a><a href="fdi-map.html" aria-current="page">FDI Map</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav>
+  </div>
+</header>
+<main>
+<div class="wrap page-hero">
+  <div class="crumbs"><a href="index.html">Home</a> / FDI map</div>
+  <span class="eyebrow">FDI map · foreign capital into Canada</span>
+  <h1>Who backs Canadian space, defence tech and AI <span class="flame-text">from abroad</span></h1>
+<!-- fdi-counts:start -->
+<!-- fdi-counts:end -->
+</div>
+
+<section class="block" aria-labelledby="fdi-figures-title">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">Headline figures</span><h2 id="fdi-figures-title">What the map shows</h2>
+      <p>Computed from the documented links that are still active.</p></div>
+<!-- fdi-figures:start -->
+<!-- fdi-figures:end -->
+  </div>
+</section>
+
+<section class="block fdi" id="map" aria-labelledby="fdi-map-title">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">Map and table</span><h2 id="fdi-map-title">Investors and partners, and the companies they back</h2>
+      <p>One line per documented deal. The colour shows the Canadian company's sector. A solid line is an equity investment;
+      a dashed line is a partnership, contract, MOU or offset. Point at, tap or tab to an investor or a company to see its
+      links, and select it to list the deals and their sources.</p></div>
+    <div class="fdi-views" role="group" aria-label="Show as" hidden>
+      <button type="button" data-view="map" aria-pressed="true">Map</button><button type="button" data-view="table" aria-pressed="false">Table</button>
+    </div>
+<!-- fdi-legend:start -->
+<!-- fdi-legend:end -->
+    <div class="fdi-view" id="fdi-map-view">
+      <a class="skip-link" href="#fdi-table-view">Skip the map and go to the table</a>
+      <div class="fdi-map-scroll">
+<!-- fdi-map:start -->
+<!-- fdi-map:end -->
+      </div>
+      <aside class="fdi-panel" id="fdi-panel" aria-labelledby="fdi-panel-title" hidden>
+        <div class="fdi-panel-head"><h3 id="fdi-panel-title" tabindex="-1"></h3>
+          <button type="button" class="dialog-close" aria-label="Close the details">×</button></div>
+        <p class="muted" id="fdi-panel-sub"></p>
+        <ul id="fdi-panel-list"></ul>
+      </aside>
+    </div>
+    <div class="fdi-view" id="fdi-table-view" tabindex="-1">
+<!-- fdi-table:start -->
+<!-- fdi-table:end -->
+    </div>
+<!-- fdi-asof:start -->
+<!-- fdi-asof:end -->
+  </div>
+</section>
+
+<section class="block night" id="method">
+  <div class="wrap two">
+    <div class="head fdi-method">
+      <span class="eyebrow">Method</span><h2>How this map is made</h2>
+      <ul class="ticks">
+        <li>Built from public announcements: company and government releases, and reputable trade and business
+          publications. Every link cites its source.</li>
+        <li>Not exhaustive. It shows the deals that have been announced publicly and found, not every deal.</li>
+        <li>These are announced investments and partnerships, not official foreign direct investment (FDI) statistics,
+          which are compiled differently, for example by Statistics Canada.</li>
+        <li>A link is a documented public deal. It is not an endorsement of ArchangX, and it does not mean the investor
+          or the company has any relationship with ArchangX.</li>
+        <li>Included: an investor or partner headquartered outside Canada, and a company headquartered or mainly
+          operating in Canada in satellite and space, defence, dual-use or wildfire technology, or AI. Equity and
+          partnerships are recorded separately, an MOU is labelled as an MOU, and a deal that ended stays on the map,
+          marked as ended, with its date.</li>
+        <li>Updated after every quarter. To send a correction or a missing deal, email
+          <a href="mailto:shahin.vakilinia@archangx.com?subject=FDI%20map%20correction">shahin.vakilinia@archangx.com</a>
+          with a link to a public source.</li>
+      </ul>
+    </div>
+    <div class="head">
+      <span class="eyebrow">Changelog</span><h2>What changed</h2>
+<!-- fdi-changelog:start -->
+<!-- fdi-changelog:end -->
+    </div>
+  </div>
+</section>
+<script>
+(() => {
+  const root = document.getElementById("map"), svg = root.querySelector(".fdi-svg");
+  const rows = [...root.querySelectorAll(".fdi-table tbody tr")];
+  const panel = document.getElementById("fdi-panel"), list = document.getElementById("fdi-panel-list");
+  const title = document.getElementById("fdi-panel-title"), sub = document.getElementById("fdi-panel-sub");
+  const cell = (row, th) => row.querySelector(`td[data-th="${th}"]`);
+
+  // view: table by default on phones, map elsewhere
+  const views = root.querySelector(".fdi-views"), buttons = [...views.querySelectorAll("button")];
+  const scroller = root.querySelector(".fdi-map-scroll");
+  const setView = v => {
+    root.dataset.view = v; buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === v)));
+    // on a narrow screen the map scrolls sideways: start where the lines meet, not at the empty left margin
+    if (v === "map" && scroller && scroller.scrollWidth > scroller.clientWidth) scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) * .4;
+  };
+  views.hidden = false;
+  setView(matchMedia("(max-width: 760px)").matches ? "table" : "map");
+  buttons.forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
+  root.querySelector(".skip-link").addEventListener("click", e => {
+    e.preventDefault(); setView("table"); document.getElementById("fdi-table-view").focus();
+  });
+
+  // table filters
+  const filters = root.querySelector(".fdi-filters"), selects = [...filters.querySelectorAll("select")];
+  const shown = filters.querySelector(".fdi-shown");
+  filters.hidden = false;
+  const applyFilters = () => {
+    let n = 0;
+    rows.forEach(r => { r.hidden = !selects.every(s => !s.value || r.dataset[s.dataset.filter] === s.value); if (!r.hidden) n++; });
+    shown.textContent = n === rows.length ? `Showing all ${rows.length} links` : `Showing ${n} of ${rows.length} links`;
+  };
+  selects.forEach(s => s.addEventListener("change", applyFilters));
+
+  // map: highlight on hover or focus, details on select
+  if (!svg) return;
+  const nodes = [...svg.querySelectorAll(".node")], lines = [...svg.querySelectorAll(".ln")];
+  let selected = null;
+  const highlight = node => {
+    svg.classList.toggle("hl", !!node);
+    lines.forEach(l => l.classList.remove("on")); nodes.forEach(n => n.classList.remove("on"));
+    if (!node) return;
+    const inv = node.classList.contains("inv"), id = node.dataset.id;
+    node.classList.add("on");
+    lines.forEach(l => {
+      if ((inv ? l.dataset.i : l.dataset.c) !== id) return;
+      l.classList.add("on");
+      const other = svg.querySelector(`.node.${inv ? "co" : "inv"}[data-id="${inv ? l.dataset.c : l.dataset.i}"]`);
+      if (other) other.classList.add("on");
+    });
+  };
+  const select = node => {
+    selected = node;
+    nodes.forEach(n => n.setAttribute("aria-pressed", String(n === node)));
+    highlight(node);
+    if (!node) { panel.hidden = true; return; }
+    const inv = node.classList.contains("inv"), id = node.dataset.id;
+    const mine = rows.filter(r => (inv ? r.dataset.i : r.dataset.c) === id);
+    title.textContent = mine.length ? cell(mine[0], inv ? "Investor" : "Company").textContent : node.querySelector("text").textContent;
+    sub.textContent = mine.length ? (inv ? cell(mine[0], "From").textContent : cell(mine[0], "Sector").textContent.trim())
+      + ` · ${mine.length} documented link${mine.length === 1 ? "" : "s"}` : "No documented links";
+    list.replaceChildren(...mine.map(r => {
+      const li = document.createElement("li"), head = document.createElement("p"), deal = document.createElement("p"), src = document.createElement("p");
+      const b = document.createElement("b"); b.textContent = cell(r, inv ? "Company" : "Investor").textContent;
+      head.append(b, ` · ${cell(r, "Kind").textContent.trim()} · ${cell(r, "Status").textContent}`);
+      deal.textContent = cell(r, "Deal").textContent;
+      src.className = "src"; src.append("Sources: ", ...[...cell(r, "Sources").querySelectorAll("a")].map(a => a.cloneNode(true)));
+      li.append(head, deal, src); return li;
+    }));
+    panel.hidden = false;
+  };
+  nodes.forEach(n => {
+    n.addEventListener("pointerenter", () => highlight(n));
+    n.addEventListener("pointerleave", () => highlight(selected));
+    n.addEventListener("focus", () => highlight(n));
+    n.addEventListener("blur", () => highlight(selected));
+    n.addEventListener("click", () => select(selected === n ? null : n));
+    n.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(selected === n ? null : n); } });
+  });
+  const close = () => { const back = selected; select(null); if (back) back.focus(); };
+  panel.querySelector(".dialog-close").addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && selected) close(); });
+})();
+</script>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <img src="assets/logo-dark.png" alt="ArchangX" width="280" height="142">
+    <nav aria-label="Footer"><a href="index.html">Home</a><a href="guardian.html">Guardian</a><a href="technology-stack.html">Technology Stack</a><a href="digital-twin.html">Digital Twin</a><a href="exhibitions.html">Exhibitions</a><a href="summit-2027.html">Summit 2027</a><a href="fdi-map.html">FDI Map</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
+    <p>© <span class="year">2026</span> ArchAngX Corp. · Space data centres, wildfire AI and digital twins.</p>
+  </div>
+</footer>
+<script>document.querySelectorAll(".year").forEach(e => e.textContent = new Date().getFullYear());</script>
+</body>
+</html>
